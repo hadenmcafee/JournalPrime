@@ -2,6 +2,7 @@ package com.bignerdranch.android.JournalPrime.database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
+import android.media.Image;
 
 import com.bignerdranch.android.JournalPrime.Entry;
 import com.bignerdranch.android.JournalPrime.database.EntryDbSchema.EntryTable;
@@ -26,13 +27,9 @@ public class EntryCursorWrapper extends CursorWrapper {
         String temp = getString(getColumnIndex(EntryTable.Cols.TEMP));
         String location = getString(getColumnIndex(EntryTable.Cols.LOCATION));
         String sky = getString(getColumnIndex(EntryTable.Cols.SKY));
-        String image_one = getString(getColumnIndex(EntryTable.Cols.IMAGE_ONE));
-        String image_two = getString(getColumnIndex(EntryTable.Cols.IMAGE_TWO));
-        String image_three = getString(getColumnIndex(EntryTable.Cols.IMAGE_THREE));
-
-
-
-
+//        String image_one = getString(getColumnIndex(EntryTable.Cols.IMAGE_ONE));
+//        String image_two = getString(getColumnIndex(EntryTable.Cols.IMAGE_TWO));
+//        String image_three = getString(getColumnIndex(EntryTable.Cols.IMAGE_THREE));
 
         Entry entry = new Entry(UUID.fromString(uuidString));
         entry.setTitle(title);
@@ -43,13 +40,14 @@ public class EntryCursorWrapper extends CursorWrapper {
         entry.setTemp(temp);
         entry.setLocation(location);
         entry.setSky(sky);
-        entry.setImage_one(image_one);
-        entry.setImage_two(image_two);
-        entry.setImage_three(image_three);
-
-
-
+//        entry.setImage_one(image_one);
+//        entry.setImage_two(image_two);
+//        entry.setImage_three(image_three);
 
         return entry;
+    }
+
+    public Image getImage(){
+
     }
 }
