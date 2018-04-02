@@ -85,15 +85,15 @@ public class EntryFragment extends Fragment {
             }
         });
 
-        mSolvedCheckbox = (CheckBox) v.findViewById(R.id.entry_solved);
-        mSolvedCheckbox.setChecked(mEntry.isSolved());
-        mSolvedCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, 
-                    boolean isChecked) {
-                mEntry.setSolved(isChecked);
-            }
-        });
+//        mSolvedCheckbox = (CheckBox) v.findViewById(R.id.entry_solved);
+//        mSolvedCheckbox.setChecked(mEntry.isSolved());
+//        mSolvedCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView,
+//                    boolean isChecked) {
+//                mEntry.setSolved(isChecked);
+//            }
+//        });
 
         return v;
     }

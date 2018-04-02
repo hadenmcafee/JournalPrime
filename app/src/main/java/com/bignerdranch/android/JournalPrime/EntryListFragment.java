@@ -144,7 +144,7 @@ public class EntryListFragment extends Fragment {
             mEntry = entry;
             mTitleTextView.setText(mEntry.getTitle());
             mDateTextView.setText(mEntry.getDate().toString());
-            mSolvedImageView.setVisibility(entry.isSolved() ? View.VISIBLE : View.GONE);
+//            mSolvedImageView.setVisibility(entry.isSolved() ? View.VISIBLE : View.GONE);
         }
 
         @Override
