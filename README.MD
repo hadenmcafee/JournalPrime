@@ -23,6 +23,6 @@ Optional Feature List:
 Search Journal Entries by key word
 
 
-![image](https://user-images.githubusercontent.com/31460525/38516277-5982818a-3bfc-11e8-9680-4924c83fbd8c.png)
+![image](https://user-images.githubusercontent.com/31460525/38516586-30da7566-3bfd-11e8-94f3-eb1daa76c4dc.png)
 
 ![image](https://user-images.githubusercontent.com/31460525/38516429-bcd19cb2-3bfc-11e8-8682-08b57d5d210a.png)
