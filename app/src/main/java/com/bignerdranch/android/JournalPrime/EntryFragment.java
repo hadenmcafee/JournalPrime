@@ -85,7 +85,7 @@ public class EntryFragment extends Fragment {
             }
         });
 
-        mSolvedCheckbox = (CheckBox) v.findViewById(R.id.entry_solved);
+        /*mSolvedCheckbox = (CheckBox) v.findViewById(R.id.entry_solved);
         mSolvedCheckbox.setChecked(mEntry.isSolved());
         mSolvedCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
@@ -93,7 +93,7 @@ public class EntryFragment extends Fragment {
                     boolean isChecked) {
                 mEntry.setSolved(isChecked);
             }
-        });
+        });*/
 
         return v;
     }

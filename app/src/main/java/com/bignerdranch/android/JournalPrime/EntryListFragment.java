@@ -129,7 +129,7 @@ public class EntryListFragment extends Fragment {
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
-        private ImageView mSolvedImageView;
+        private ImageView mSkyIconImageView;
 
         public EntryHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_entry, parent, false));
@@ -137,14 +137,14 @@ public class EntryListFragment extends Fragment {
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.entry_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.entry_date);
-            mSolvedImageView = (ImageView) itemView.findViewById(R.id.entry_solved);
+            mSkyIconImageView = (ImageView) itemView.findViewById(R.id.entry_sky);
         }
 
         public void bind(Entry entry) {
             mEntry = entry;
             mTitleTextView.setText(mEntry.getTitle());
             mDateTextView.setText(mEntry.getDate().toString());
-            mSolvedImageView.setVisibility(entry.isSolved() ? View.VISIBLE : View.GONE);
+            mSkyIconImageView.setVisibility(entry.isSolved() ? View.VISIBLE : View.GONE);
         }
 
         @Override
