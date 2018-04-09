@@ -5,7 +5,7 @@
     android:layout_margin="16dp"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -19,10 +19,11 @@
 
         <EditText
             android:id="@+id/entry_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
             android:hint="@string/entry_title_hint"/>
-    </LinearLayout>
+    </GridLayout>
 
     <TextView
         style="?android:listSeparatorTextViewStyle"
@@ -40,24 +41,23 @@
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="0"
             android:text="@string/entry_date_label"/>
         <Button
             android:id="@+id/entry_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_gravity="fill_horizontal"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill_horizontal"/>
+            android:layout_height="wrap_content"
+            />
 
         <TextView
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="0"
             android:text="@string/entry_time_label"/>
         <Button
             android:id="@+id/entry_time"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill_horizontal"/>

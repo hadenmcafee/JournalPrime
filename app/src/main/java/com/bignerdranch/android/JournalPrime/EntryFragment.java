@@ -15,6 +15,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -121,6 +124,7 @@ public class EntryFragment extends Fragment {
     }
 
     private void updateDate() {
-        mDateButton.setText(mEntry.getDate().toString());
+        DateFormat formatter = new SimpleDateFormat("EEE, MM/dd/yyyy");
+        mDateButton.setText(formatter.format(mEntry.getDate())); //mDateButton.setText(mEntry.getDate().toString());
     }
 }

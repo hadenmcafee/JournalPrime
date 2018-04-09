@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class EntryListFragment extends Fragment {
@@ -141,10 +143,12 @@ public class EntryListFragment extends Fragment {
         }
 
         public void bind(Entry entry) {
+            DateFormat formatter = new SimpleDateFormat("EEE, MM/dd/yyyy");
+
             mEntry = entry;
             mTitleTextView.setText(mEntry.getTitle());
-            mDateTextView.setText(mEntry.getDate().toString());
-            mSkyIconImageView.setVisibility(entry.isSolved() ? View.VISIBLE : View.GONE);
+            mDateTextView.setText(formatter.format(mEntry.getDate())); //mDateButton.setText(mEntry.getDate().toString());
+            //mSkyIconImageView.setVisibility(View.VISIBLE);
         }
 
         @Override
