@@ -47,7 +47,7 @@ public class EntryCursorWrapper extends CursorWrapper {
         return entry;
     }
 
-    public Image getImage(){
-
-    }
+//    public Image getImage(){
+//
+//    }
 }

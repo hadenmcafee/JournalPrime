@@ -103,9 +103,9 @@ public class EntryRepository {
         values.put(TEMP, entry.getTemp());
         values.put(LOCATION, entry.getLocation());
         values.put(SKY, entry.getSky());
-        values.put(IMAGE_ONE, entry.getImage_one());
-        values.put(IMAGE_TWO, entry.getImage_two());
-        values.put(IMAGE_THREE, entry.getImage_three());
+//        values.put(IMAGE_ONE, entry.getImage_one());
+//        values.put(IMAGE_TWO, entry.getImage_two());
+//        values.put(IMAGE_THREE, entry.getImage_three());
 
         return values;
     }
