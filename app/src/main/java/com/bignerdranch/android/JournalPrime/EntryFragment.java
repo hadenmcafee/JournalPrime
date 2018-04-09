@@ -2,11 +2,13 @@ package com.bignerdranch.android.JournalPrime;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -22,6 +25,7 @@ import static android.widget.CompoundButton.*;
 
 public class EntryFragment extends Fragment {
 
+    private static final String TAG = "EntryFragment";
     private static final String ARG_ENTRY_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
 
@@ -46,6 +50,7 @@ public class EntryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID entryID = (UUID) getArguments().getSerializable(ARG_ENTRY_ID);
         mEntry = EntryRepository.get(getActivity()).getEntry(entryID);
+        new FetchItemsTask().execute();
     }
 
     @Override
@@ -122,5 +127,20 @@ public class EntryFragment extends Fragment {
 
     private void updateDate() {
         mDateButton.setText(mEntry.getDate().toString());
+    }
+
+    //Writing an AsyncTask
+    private class FetchItemsTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params){
+            try{
+                String result = new DarkSkyFetchr()
+                        .getUrlString("https://www.bignerdranch.com");
+                Log.i(TAG, "Fetched contents of URL: " + result);
+            } catch(IOException ioe) {
+                Log.e(TAG, "Failed to fetch URL: ", ioe);
+            }
+            return null;
+        }
     }
 }
