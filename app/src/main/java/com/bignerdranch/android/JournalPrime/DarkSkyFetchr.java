@@ -1,5 +1,6 @@
 package com.bignerdranch.android.JournalPrime;
 
+import android.location.Geocoder;
 import android.net.Uri;
 import android.util.Log;
 
@@ -24,6 +25,8 @@ public class DarkSkyFetchr {
 
     private static final String TAG = "DarkSkyFetchr";
     private static final String API_KEY = "0608051a6da549bf10d568618a505a37";
+    private static final String LAT = "37.8267";
+    private static final String LON = "-122.4233";
 
     public byte[] getUrlBytes(String urlSpec) throws IOException{
         URL url = new URL(urlSpec);
@@ -60,12 +63,13 @@ public class DarkSkyFetchr {
         List<DarkSkyItem> items = new ArrayList<>();
 
         try{
-            String url = Uri.parse("https://api.darksky.net/forecast/")
-                    .buildUpon()
-                    .appendQueryParameter("api_key", API_KEY)
-                    .appendQueryParameter("lat", "lat")
-                    .appendQueryParameter("lon", "lon")
-                    .build().toString();
+            String url = "https://api.darksky.net/forecast/0608051a6da549bf10d568618a505a37/37.8267,-122.4233";
+//            String url = Uri.parse("https://api.darksky.net/forecast/")
+//                    .buildUpon()
+//                    .appendQueryParameter("api_key", API_KEY)
+//                    .appendQueryParameter("lat", LAT)
+//                    .appendQueryParameter("lon", LON)
+//                    .build().toString();
             String jsonString = getUrlString(url);
             Log.i(TAG, "Received JSON: " + jsonString);
             JSONObject jsonBody = new JSONObject(jsonString);
@@ -83,20 +87,33 @@ public class DarkSkyFetchr {
     private void parseItems(List<DarkSkyItem> items, JSONObject jsonBody)
         throws IOException, JSONException{
 
-        JSONObject weathersJsonObject = jsonBody.getJSONObject("weathers");
-        JSONArray weatherJsonArray = weathersJsonObject.getJSONArray("weather");
+        JSONObject weathersJsonObject = jsonBody/*getJSONObject("weathers")*/;
+        Boolean test = weathersJsonObject.has("currently");
+        Log.i(TAG, test.toString());
 
-        for (int i = 0; i < weatherJsonArray.length(); i++){
-            JSONObject weatherJsonObject = weatherJsonArray.getJSONObject(i);
+        JSONArray weatherJsonArray = weathersJsonObject.getJSONArray("currently");
+
+//        for (int i = 0; i < weatherJsonArray.length(); i++){
+//            JSONObject weatherJsonObject = weatherJsonArray.getJSONObject(i);
+
+        JSONObject weatherJsonObject = weatherJsonArray.getJSONObject(0);
+
 
             DarkSkyItem item = new DarkSkyItem();
+
+//            Boolean test = weatherJsonObject.has("summary");
+//            Log.i(TAG, test.toString());
+
             item.setmSky(weatherJsonObject.getString("summary"));
             item.setmTemp(weatherJsonObject.getString("temperature"));
 
+
+
             items.add(item);
         }
-    }
 }
 
-//    private static final String API ="https://api.darksky.net/forecast/0608051a6da549bf10d568618a505a37";
+//private static final String API ="https://api.darksky.net/forecast/0608051a6da549bf10d568618a505a37";
+//google api key: AIzaSyCGyCVQeUK-DmKPpCFaOEMTmD4dsK3OfkM
+
 

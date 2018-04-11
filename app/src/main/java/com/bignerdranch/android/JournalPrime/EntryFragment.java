@@ -56,7 +56,7 @@ public class EntryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID entryID = (UUID) getArguments().getSerializable(ARG_ENTRY_ID);
         mEntry = EntryRepository.get(getActivity()).getEntry(entryID);
-//        new FetchItemsTask().execute();
+        new FetchItemsTask().execute();
     }
 
     @Override
@@ -174,12 +174,12 @@ public class EntryFragment extends Fragment {
         mDateButton.setText(mEntry.getDate().toString());
     }
 
-    //Writing an AsyncTask
-//    private class FetchItemsTask extends AsyncTask<Void, Void, Void> {
-//        @Override
-//        protected Void doInBackground(Void... params){
-//            new DarkSkyFetchr().fetchItems();
-//            return null;
-//        }
-//    }
+//    Writing an AsyncTask
+    private class FetchItemsTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params){
+            new DarkSkyFetchr().fetchItems();
+            return null;
+        }
+    }
 }

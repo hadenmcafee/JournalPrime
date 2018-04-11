@@ -21,6 +21,11 @@
         <activity android:name=".EntryPagerActivity"
             android:parentActivityName=".EntryListActivity">
         </activity>
+
+        <!--added google maps api_key-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCGyCVQeUK-DmKPpCFaOEMTmD4dsK3OfkM"/>
     </application>
 
 </manifest>
