@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,9 +17,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import static android.widget.CompoundButton.*;
@@ -35,6 +39,8 @@ public class EntryFragment extends Fragment {
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckbox;
+//    private RecyclerView mWeatherRecyclerView;
+//    private List<DarkSkyItem> mItems = new ArrayList<>();
 
     public static EntryFragment newInstance(UUID entryID) {
         Bundle args = new Bundle();
@@ -50,7 +56,7 @@ public class EntryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID entryID = (UUID) getArguments().getSerializable(ARG_ENTRY_ID);
         mEntry = EntryRepository.get(getActivity()).getEntry(entryID);
-        new FetchItemsTask().execute();
+//        new FetchItemsTask().execute();
     }
 
     @Override
@@ -103,6 +109,45 @@ public class EntryFragment extends Fragment {
         return v;
     }
 
+//    private class WeatherHolder extends RecyclerView.ViewHolder{
+//        private TextView mSkyTextView;
+//
+//        public WeatherHolder(View itemView){
+//            super(itemView);
+//
+//            mSkyTextView = (TextView) itemView;
+//        }
+//
+//        public void bindDarkSkyItem(DarkSkyItem item){
+//            mSkyTextView.setText(item.toString());
+//        }
+//    }
+
+//    private class WeatherAdapter extends RecyclerView.Adapter<WeatherHolder>{
+//        private List<DarkSkyItem> mDarkSkyItems;
+//
+//        public WeatherAdapter(List<DarkSkyItem> darkskyItems){
+//            mDarkSkyItems = darkskyItems;
+//        }
+//
+//        @Override
+//        public WeatherHolder onCreateViewHolder(ViewGroup viewGroup, int viewType){
+//            TextView textView = new TextView(getActivity());
+//            return new WeatherHolder(textView);
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(WeatherHolder weatherHolder, int position){
+//            DarkSkyItem darkSkyItem = mDarkSkyItems.get(position);
+//            weatherHolder.bindDarkSkyItem(darkSkyItem);
+//        }
+//
+//        @Override
+//        public int getItemCount(){
+//            return mDarkSkyItems.size();
+//        }
+//    }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -130,17 +175,11 @@ public class EntryFragment extends Fragment {
     }
 
     //Writing an AsyncTask
-    private class FetchItemsTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params){
-            try{
-                String result = new DarkSkyFetchr()
-                        .getUrlString("https://www.bignerdranch.com");
-                Log.i(TAG, "Fetched contents of URL: " + result);
-            } catch(IOException ioe) {
-                Log.e(TAG, "Failed to fetch URL: ", ioe);
-            }
-            return null;
-        }
-    }
+//    private class FetchItemsTask extends AsyncTask<Void, Void, Void> {
+//        @Override
+//        protected Void doInBackground(Void... params){
+//            new DarkSkyFetchr().fetchItems();
+//            return null;
+//        }
+//    }
 }
