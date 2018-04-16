@@ -46,4 +46,9 @@ public class Entry {
     public void setSolved(boolean solved) {
         mSolved = solved;
     }
+
+//    designating a picture location--need to change getId()
+    public String getPhotoFilename(){
+        return "IMG_" + getId().toString() + ".jpg";
+    }
 }
