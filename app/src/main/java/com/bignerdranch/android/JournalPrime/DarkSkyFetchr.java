@@ -87,27 +87,27 @@ public class DarkSkyFetchr {
     private void parseItems(List<DarkSkyItem> items, JSONObject jsonBody)
         throws IOException, JSONException{
 
-        JSONObject weathersJsonObject = jsonBody/*getJSONObject("weathers")*/;
-        Boolean test = weathersJsonObject.has("currently");
+        JSONObject currentlyJsonObject = jsonBody.getJSONObject("currently");
+
+        Boolean test = currentlyJsonObject.has("summary");
         Log.i(TAG, test.toString());
 
-        JSONArray weatherJsonArray = weathersJsonObject.getJSONArray("currently");
+        Boolean testTwo = currentlyJsonObject.has("temperature");
+        Log.i(TAG, testTwo.toString());
+
+
+//        JSONArray currentlyJsonArray = forecastJsonObject.getJSONArray("currently");
 
 //        for (int i = 0; i < weatherJsonArray.length(); i++){
 //            JSONObject weatherJsonObject = weatherJsonArray.getJSONObject(i);
 
-        JSONObject weatherJsonObject = weatherJsonArray.getJSONObject(0);
+//        JSONObject forecastJsonObject = currentlyJsonArray.getJSONObject(0);
 
 
             DarkSkyItem item = new DarkSkyItem();
 
-//            Boolean test = weatherJsonObject.has("summary");
-//            Log.i(TAG, test.toString());
-
-            item.setmSky(weatherJsonObject.getString("summary"));
-            item.setmTemp(weatherJsonObject.getString("temperature"));
-
-
+            item.setmSky(currentlyJsonObject.getString("summary"));
+            item.setmTemp(currentlyJsonObject.getString("temperature"));
 
             items.add(item);
         }
