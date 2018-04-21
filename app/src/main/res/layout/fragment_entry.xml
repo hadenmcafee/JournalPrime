@@ -44,10 +44,7 @@
         android:id="@+id/entry_photo"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:scaleType="centerInside"
+        android:background="@android:color/darker_gray"
         android:cropToPadding="true"
-        android:background="@android:color/darker_gray"/>
-
-
-
+        android:scaleType="centerInside" />
 </LinearLayout>
