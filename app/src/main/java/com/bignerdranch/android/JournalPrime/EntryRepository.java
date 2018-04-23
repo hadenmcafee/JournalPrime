@@ -97,7 +97,16 @@ public class EntryRepository {
         values.put(UUID, entry.getId().toString());
         values.put(TITLE, entry.getTitle());
         values.put(DATE, entry.getDate().getTime());
-        values.put(SOLVED, entry.isSolved() ? 1 : 0);
+        values.put(TIME, entry.getTime().getTime());
+        values.put(MOOD, entry.getMood());
+        values.put(JOURNAL_ENTRY, entry.getJournal_entry());
+        values.put(TEMP, entry.getTemp());
+        values.put(LOCATION, entry.getLocation());
+        values.put(SKY, entry.getSky());
+//        values.put(IMAGE_ONE, entry.getImage_one());
+//        values.put(IMAGE_TWO, entry.getImage_two());
+//        values.put(IMAGE_THREE, entry.getImage_three());
+
         return values;
     }
 
