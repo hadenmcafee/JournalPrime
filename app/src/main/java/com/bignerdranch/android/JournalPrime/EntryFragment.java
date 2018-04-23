@@ -2,10 +2,16 @@ package com.bignerdranch.android.JournalPrime;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +23,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -24,6 +32,7 @@ import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -35,6 +44,7 @@ public class EntryFragment extends Fragment {
     private static final String TAG = "EntryFragment";
     private static final String ARG_ENTRY_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
+    private static final int REQUEST_PHOTO=2;
 
     private static final int REQUEST_DATE = 0;
 
@@ -45,6 +55,10 @@ public class EntryFragment extends Fragment {
 //    private RecyclerView mWeatherRecyclerView;
 //    private List<DarkSkyItem> mItems = new ArrayList<>();
 
+    private ImageButton mPhotoButton;
+    private ImageView mPhotoView;
+    private File mPhotoFile;
+
     public static EntryFragment newInstance(UUID entryID) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_ENTRY_ID, entryID);
@@ -54,12 +68,26 @@ public class EntryFragment extends Fragment {
         return fragment;
     }
 
+    private void updatePhotoView(){
+        if (mPhotoFile == null || !mPhotoFile.exists()){
+            mPhotoView.setImageDrawable(null);
+        }else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(
+                    mPhotoFile.getPath(), getActivity());
+            mPhotoView.setImageBitmap(bitmap);
+        }
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID entryID = (UUID) getArguments().getSerializable(ARG_ENTRY_ID);
         mEntry = EntryRepository.get(getActivity()).getEntry(entryID);
         new FetchItemsTask().execute();
+
+        //grabbing photo file location
+        mPhotoFile = EntryRepository.get(getActivity()).getPhotoFile(mEntry);
     }
 
     @Override
@@ -108,6 +136,40 @@ public class EntryFragment extends Fragment {
                 mEntry.setSolved(isChecked);
             }
         });*/
+
+
+        //Camera intent
+        PackageManager packageManager = getActivity().getPackageManager();
+
+        mPhotoButton = (ImageButton) v. findViewById(R.id.entry_camera);
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        boolean canTakePhoto = mPhotoFile != null &&
+                captureImage.resolveActivity(packageManager) != null;
+        mPhotoButton.setEnabled(canTakePhoto);
+
+        mPhotoButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Uri uri = FileProvider.getUriForFile(getActivity(),
+                        "com.bignerdranch.android.JournalPrime.fileprovider",
+                        mPhotoFile);
+                captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+                List<ResolveInfo> cameraActivities = getActivity()
+                        .getPackageManager().queryIntentActivities(captureImage,
+                                PackageManager.MATCH_DEFAULT_ONLY);
+
+                for(ResolveInfo activity : cameraActivities){
+                    getActivity().grantUriPermission(activity.activityInfo.packageName,
+                            uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                }
+                startActivityForResult(captureImage, REQUEST_PHOTO);
+            }
+        });
+
+        mPhotoView = (ImageView) v.findViewById(R.id.entry_photo);
+        updatePhotoView();
 
         return v;
     }
@@ -170,6 +232,15 @@ public class EntryFragment extends Fragment {
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mEntry.setDate(date);
             updateDate();
+        }else if (requestCode == REQUEST_PHOTO){
+            Uri uri = FileProvider.getUriForFile(getActivity(),
+                    "com.bignerdranch.android.JournalPrime.fileprovider",
+                    mPhotoFile);
+
+            getActivity().revokeUriPermission(uri,
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+            updatePhotoView();
         }
     }
 

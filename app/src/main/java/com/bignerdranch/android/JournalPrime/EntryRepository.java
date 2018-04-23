@@ -10,6 +10,7 @@ import com.bignerdranch.android.JournalPrime.database.EntryBaseHelper;
 import com.bignerdranch.android.JournalPrime.database.EntryCursorWrapper;
 import com.bignerdranch.android.JournalPrime.database.EntryDbSchema.EntryTable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -73,6 +74,12 @@ public class EntryRepository {
         } finally {
             cursor.close();
         }
+    }
+
+//    finding photo file location
+    public File getPhotoFile(Entry entry){
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir, entry.getPhotoFilename());
     }
 
     public void updateEntry(Entry entry) {

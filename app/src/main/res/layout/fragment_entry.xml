@@ -191,3 +191,17 @@
         android:text="@string/entry_solved_label"/-->
 
 </GridLayout>
+    <ImageButton
+        android:id="@+id/entry_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_camera"/>
+
+    <ImageView
+        android:id="@+id/entry_photo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@android:color/darker_gray"
+        android:cropToPadding="true"
+        android:scaleType="centerInside" />
+</LinearLayout>

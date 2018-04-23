@@ -146,4 +146,9 @@ public class Entry {
                 private String mImage_three;
                  */
     }
+
+//    designating a picture location--need to change getId()
+    public String getPhotoFilename(){
+        return "IMG_" + getId().toString() + ".jpg";
+    }
 }
