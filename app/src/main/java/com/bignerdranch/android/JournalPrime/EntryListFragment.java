@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,8 @@ public class EntryListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private EntryAdapter mAdapter;
     private boolean mSubtitleVisible;
+
+    public static String TAG = "TROUBLESHOOT";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,20 +82,24 @@ public class EntryListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.new_entry:
+            case R.id.new_entry: {
                 Entry entry = new Entry();
+                Log.d(TAG, entry.toString());
                 EntryRepository.get(getActivity()).addEntry(entry);
                 Intent intent = EntryPagerActivity
                         .newIntent(getActivity(), entry.getId());
                 startActivity(intent);
                 return true;
-            case R.id.show_subtitle:
+            }
+            case R.id.show_subtitle: {
                 mSubtitleVisible = !mSubtitleVisible;
                 getActivity().invalidateOptionsMenu();
                 updateSubtitle();
                 return true;
-            default:
+            }
+            default: {
                 return super.onOptionsItemSelected(item);
+            }
         }
     }
 

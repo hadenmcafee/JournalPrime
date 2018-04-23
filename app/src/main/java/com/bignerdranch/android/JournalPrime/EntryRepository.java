@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.bignerdranch.android.JournalPrime.database.EntryBaseHelper;
 import com.bignerdranch.android.JournalPrime.database.EntryCursorWrapper;
@@ -19,6 +20,8 @@ public class EntryRepository {
     private static EntryRepository sEntryRepository;
     private Context mContext;
     private SQLiteDatabase mDatabase;
+
+    public static String TAG = "TROUBLESHOOT";
 
     public static EntryRepository get(Context context) {
         if (sEntryRepository == null) {
@@ -36,6 +39,7 @@ public class EntryRepository {
     }
 
     public void addEntry(Entry c) {
+        Log.d(TAG, c.toString(), new Exception());
         ContentValues values = getContentValues(c);
         mDatabase.insert(EntryTable.NAME, null, values);
     }

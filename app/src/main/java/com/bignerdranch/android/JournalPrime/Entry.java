@@ -3,6 +3,7 @@ package com.bignerdranch.android.JournalPrime;
 import android.location.Location;
 
 import java.sql.Time;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -21,6 +22,8 @@ public class Entry {
     private String mImage_two;
     private String mImage_three;
 
+    //private Calendar mCalendar;
+
     public Entry() {
         this(UUID.randomUUID());
     }
@@ -28,6 +31,7 @@ public class Entry {
     public Entry(UUID id) {
         mId = id;
         mDate = new Date();
+        mTime = new Time(0);
     }
 
     public UUID getId() {
@@ -112,5 +116,34 @@ public class Entry {
 
     public void setImage_three(String image_three) {
         mImage_three = image_three;
+    }
+
+    public String toString()
+    {
+        return "\n\nTitle: " + mTemp + ",\n" +
+                "Date: " + mDate.toString() + ",\n" +
+                "Time: " + mTime.toString();
+
+                /*"Mood: " + mTemp + ",\n" +
+                "Sky: " + mTemp + ",\n" +
+                "Entry: " + mTemp + ",\n" +
+                "Mood: " + mTemp + ",\n" +
+                "Mood: " + mTemp + ",\n" +
+                "Mood: " + mTemp + ",\n" +
+                "Mood: " + mTemp + ",\n" +
+
+                private UUID mId;
+                private String mTitle;
+                private Date mDate;
+                private Time mTime;
+                private String mMood;
+                private String mJournal_entry;
+                private String mTemp;
+                private String mLocation;
+                private String mSky;
+                private String mImage_one;
+                private String mImage_two;
+                private String mImage_three;
+                 */
     }
 }
