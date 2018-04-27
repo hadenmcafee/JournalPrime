@@ -11,31 +11,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatePickerFragment extends DialogFragment {
+public class TimePickerFragment extends DialogFragment //TODO
+{
+    public static final String EXTRA_TIME =
+            "com.bignerdranch.android.JournalPrime.time";
 
-    public static final String EXTRA_DATE =
-            "com.bignerdranch.android.JournalPrime.date";
-
-    private static final String ARG_DATE = "date";
+    private static final String ARG_TIME = "time";
 
     private DatePicker mDatePicker;
 
-    public static DatePickerFragment newInstance(Date date) {
+    public static TimePickerFragment newInstance(Time time) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_DATE, date);
+        args.putSerializable(ARG_TIME, time);
 
-        DatePickerFragment fragment = new DatePickerFragment();
+        TimePickerFragment fragment = new TimePickerFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Date date = (Date) getArguments().getSerializable(ARG_DATE);
+        Date date = (Date) getArguments().getSerializable(ARG_TIME);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -72,7 +73,7 @@ public class DatePickerFragment extends DialogFragment {
         }
 
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_DATE, date);
+        intent.putExtra(EXTRA_TIME, date);
 
         getTargetFragment()
                 .onActivityResult(getTargetRequestCode(), resultCode, intent);

@@ -47,7 +47,7 @@ public class EntryRepository {
 
     public List<Entry> getEntries() {
         List<Entry> entries = new ArrayList<>();
-        EntryCursorWrapper cursor = queryCrimes(null, null);
+        EntryCursorWrapper cursor = queryEntries(null, null);
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -61,7 +61,7 @@ public class EntryRepository {
     }
 
     public Entry getEntry(UUID id) {
-        EntryCursorWrapper cursor = queryCrimes(
+        EntryCursorWrapper cursor = queryEntries(
                 EntryTable.Cols.UUID + " = ?",
                 new String[]{id.toString()}
         );
@@ -90,7 +90,7 @@ public class EntryRepository {
                 new String[]{uuidString});
     }
 
-    private EntryCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
+    private EntryCursorWrapper queryEntries(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 EntryTable.NAME,
                 null, // Columns - null selects all columns
@@ -109,11 +109,11 @@ public class EntryRepository {
         values.put(TITLE, entry.getTitle());
         values.put(DATE, entry.getDate().getTime());
         values.put(TIME, entry.getTime().getTime());
-        values.put(MOOD, entry.getMood());
-        values.put(JOURNAL_ENTRY, entry.getJournal_entry());
+        values.put(JOURNAL_ENTRY, entry.getEntryContent());
         values.put(TEMP, entry.getTemp());
         values.put(LOCATION, entry.getLocation());
         values.put(SKY, entry.getSky());
+//        values.put(MOOD, entry.getMood());
 //        values.put(IMAGE_ONE, entry.getImage_one());
 //        values.put(IMAGE_TWO, entry.getImage_two());
 //        values.put(IMAGE_THREE, entry.getImage_three());

@@ -14,15 +14,15 @@ import java.util.UUID;
 
 public class EntryPagerActivity extends AppCompatActivity {
 
-    private static final String EXTRA_CRIME_ID =
-            "com.bignerdranch.android.criminalintent.crime_id";
+    private static final String EXTRA_ENTRY_ID =
+            "com.bignerdranch.android.JournalPrime.entry_id";
 
     private ViewPager mViewPager;
     private List<Entry> mEntries;
 
-    public static Intent newIntent(Context packageContext, UUID crimeId) {
+    public static Intent newIntent(Context packageContext, UUID entryId) {
         Intent intent = new Intent(packageContext, EntryPagerActivity.class);
-        intent.putExtra(EXTRA_CRIME_ID, crimeId);
+        intent.putExtra(EXTRA_ENTRY_ID, entryId);
         return intent;
     }
 
@@ -31,8 +31,8 @@ public class EntryPagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry_pager);
 
-        UUID crimeId = (UUID) getIntent()
-                .getSerializableExtra(EXTRA_CRIME_ID);
+        UUID entryId = (UUID) getIntent()
+                .getSerializableExtra(EXTRA_ENTRY_ID);
 
         mViewPager = (ViewPager) findViewById(R.id.entry_view_pager);
 
@@ -53,7 +53,7 @@ public class EntryPagerActivity extends AppCompatActivity {
         });
 
         for (int i = 0; i < mEntries.size(); i++) {
-            if (mEntries.get(i).getId().equals(crimeId)) {
+            if (mEntries.get(i).getId().equals(entryId)) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

@@ -23,6 +23,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
             android:hint="@string/entry_title_hint"/>
+
+        <ImageButton
+            android:id="@+id/entry_camera"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_camera"/>
     </GridLayout>
 
     <TextView
@@ -96,6 +102,7 @@
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_columnSpan="1"
             android:text="@string/entry_sky_label"/>
 
         <EditText
@@ -104,9 +111,23 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill_horizontal"
+            android:layout_columnSpan="1"
             android:hint="Ptly Cloudy"/>
 
-        <TextView
+        <ImageView
+            android:id="@+id/entry_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="2"
+
+            android:background="@android:color/darker_gray"
+            android:cropToPadding="true"
+            android:scaleType="centerInside" />
+
+        <!--<TextView
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,7 +142,7 @@
             android:layout_gravity="fill_horizontal"
             android:layout_rowSpan="2"
             android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dropdown"/>-->
 
         <TextView
             style="?android:listSeparatorTextViewStyle"
@@ -191,17 +212,3 @@
         android:text="@string/entry_solved_label"/-->
 
 </GridLayout>
-    <ImageButton
-        android:id="@+id/entry_camera"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_camera"/>
-
-    <ImageView
-        android:id="@+id/entry_photo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@android:color/darker_gray"
-        android:cropToPadding="true"
-        android:scaleType="centerInside" />
-</LinearLayout>

@@ -1,9 +1,9 @@
 package com.bignerdranch.android.JournalPrime;
 
-import android.location.Location;
+import android.util.Log;
+import android.util.Pair;
 
 import java.sql.Time;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ public class Entry {
     private Date mDate;
     private Time mTime;
     private String mMood;
-    private String mJournal_entry;
+    private String mEntryContent;
     private String mTemp;
     private String mLocation;
     private String mSky;
@@ -32,6 +32,7 @@ public class Entry {
         mId = id;
         mDate = new Date();
         mTime = new Time(0);
+        mSky = "";
     }
 
     public UUID getId() {
@@ -62,12 +63,12 @@ public class Entry {
 
     public void setMood(String mood){mMood = mood;}
 
-    public String getJournal_entry() {
-        return mJournal_entry;
+    public String getEntryContent() {
+        return mEntryContent;
     }
 
-    public void setJournal_entry(String journal_entry) {
-        mJournal_entry = journal_entry;
+    public void setEntryContent(String entryContent) {
+        mEntryContent = entryContent;
     }
 
     public String getTemp() {
@@ -137,7 +138,7 @@ public class Entry {
                 private Date mDate;
                 private Time mTime;
                 private String mMood;
-                private String mJournal_entry;
+                private String mEntryContent;
                 private String mTemp;
                 private String mLocation;
                 private String mSky;
@@ -150,5 +151,81 @@ public class Entry {
 //    designating a picture location--need to change getId()
     public String getPhotoFilename(){
         return "IMG_" + getId().toString() + ".jpg";
+    }
+
+    public static int getSkyImageIndex(String skyText)
+    {
+        int resourceIndex;
+
+        switch (skyText)
+        {
+            case "clear-day":
+            {
+                resourceIndex=R.drawable.icon_clear_day;
+                break;
+            }
+
+            case "clear-night":
+            {
+                resourceIndex=R.drawable.icon_clear_night;
+                break;
+            }
+
+            case "rain":
+            {
+                resourceIndex=R.drawable.icon_rain;
+                break;
+            }
+
+            case "snow":
+            {
+                resourceIndex=R.drawable.icon_snow;
+                break;
+            }
+
+            case "sleet":
+            {
+                resourceIndex=R.drawable.icon_sleet;
+                break;
+            }
+
+            case "wind":
+            {
+                resourceIndex=R.drawable.icon_wind;
+                break;
+            }
+
+            case "fog":
+            {
+                resourceIndex=R.drawable.icon_fog;
+                break;
+            }
+
+            case "cloudy":
+            {
+                resourceIndex=R.drawable.icon_cloudy;
+                break;
+            }
+
+            case "partly-cloudy-day":
+            {
+                resourceIndex=R.drawable.icon_partly_cloudy_day;
+                break;
+            }
+
+            case "partly-cloudy-night":
+            {
+                resourceIndex=R.drawable.icon_partly_cloudy_night;
+                break;
+            }
+
+            default:
+            {
+                Log.e("ERROR", "Error: SKY TEXT NOT FOUND");
+                resourceIndex=R.drawable.icon_error;
+            }
+        }
+
+        return resourceIndex;
     }
 }

@@ -9,9 +9,9 @@ public class EntryDbSchema {
             public static final String TITLE = "title";
             public static final String DATE = "date";
             public static final String TIME = "time";
-            public static final String MOOD = "mood";
+//            public static final String MOOD = "mood";
             public static final String JOURNAL_ENTRY = "journal_entry";
-            public static final String TEMP = "temp";
+            public static final String TEMP = "temperature";
             public static final String LOCATION = "location";
             public static final String SKY = "sky";
 

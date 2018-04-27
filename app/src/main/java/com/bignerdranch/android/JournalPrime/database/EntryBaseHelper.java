@@ -23,11 +23,11 @@ public class EntryBaseHelper extends SQLiteOpenHelper {
                 EntryTable.Cols.TITLE + ", " +
                 EntryTable.Cols.DATE + ", " +
                 EntryTable.Cols.TIME + ", " +
-                EntryTable.Cols.MOOD + ", " +
                 EntryTable.Cols.JOURNAL_ENTRY + ", " +
                 EntryTable.Cols.TEMP + ", " +
                 EntryTable.Cols.LOCATION + ", " +
                 EntryTable.Cols.SKY +")"
+//                EntryTable.Cols.MOOD + ", " +
 //                EntryTable.Cols.IMAGE_ONE + ", " +
 //                EntryTable.Cols.IMAGE_TWO + ", " +
 //                EntryTable.Cols.IMAGE_THREE +

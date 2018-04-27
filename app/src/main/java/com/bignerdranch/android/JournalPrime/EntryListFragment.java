@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ public class EntryListFragment extends Fragment {
 
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
-    private RecyclerView mCrimeRecyclerView;
+    private RecyclerView mEntryRecyclerView;
     private EntryAdapter mAdapter;
     private boolean mSubtitleVisible;
 
@@ -41,9 +42,9 @@ public class EntryListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
 
-        mCrimeRecyclerView = (RecyclerView) view
+        mEntryRecyclerView = (RecyclerView) view
                 .findViewById(R.id.entry_recycler_view);
-        mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mEntryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (savedInstanceState != null) {
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
@@ -69,7 +70,7 @@ public class EntryListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_crime_list, menu);
+        inflater.inflate(R.menu.fragment_entry_list, menu);
 
         MenuItem subtitleItem = menu.findItem(R.id.show_subtitle);
         if (mSubtitleVisible) {
@@ -105,8 +106,8 @@ public class EntryListFragment extends Fragment {
 
     private void updateSubtitle() {
         EntryRepository entryRepository = EntryRepository.get(getActivity());
-        int crimeCount = entryRepository.getEntries().size();
-        String subtitle = getString(R.string.subtitle_format, crimeCount);
+        int entryCount = entryRepository.getEntries().size();
+        String subtitle = getString(R.string.subtitle_format, entryCount);
 
         if (!mSubtitleVisible) {
             subtitle = null;
@@ -122,7 +123,7 @@ public class EntryListFragment extends Fragment {
 
         if (mAdapter == null) {
             mAdapter = new EntryAdapter(entries);
-            mCrimeRecyclerView.setAdapter(mAdapter);
+            mEntryRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.setEntries(entries);
             mAdapter.notifyDataSetChanged();
@@ -138,15 +139,19 @@ public class EntryListFragment extends Fragment {
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
+        private TextView mFirstLineContentView;
         private ImageView mSkyIconImageView;
+        private TextView mTempTextView;
 
         public EntryHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_entry, parent, false));
             itemView.setOnClickListener(this);
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.entry_title);
-            mDateTextView = (TextView) itemView.findViewById(R.id.entry_date);
-            mSkyIconImageView = (ImageView) itemView.findViewById(R.id.entry_sky);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.entry_list_title);
+            mDateTextView = (TextView) itemView.findViewById(R.id.entry_list_date);
+            mFirstLineContentView = (TextView) itemView.findViewById(R.id.entry_list_content);
+            mSkyIconImageView = (ImageView) itemView.findViewById(R.id.entry_list_sky);
+            mTempTextView = (TextView) itemView.findViewById(R.id.entry_list_temp);
         }
 
         public void bind(Entry entry) {
@@ -155,6 +160,10 @@ public class EntryListFragment extends Fragment {
             mEntry = entry;
             mTitleTextView.setText(mEntry.getTitle());
             mDateTextView.setText(formatter.format(mEntry.getDate())); //mDateButton.setText(mEntry.getDate().toString());
+            mFirstLineContentView.setText(mEntry.getEntryContent());
+            mTempTextView.setText(mEntry.getTemp());
+            mSkyIconImageView.setImageResource(Entry.getSkyImageIndex(mEntry.getSky()));
+
             //mSkyIconImageView.setVisibility(View.VISIBLE);
         }
 
