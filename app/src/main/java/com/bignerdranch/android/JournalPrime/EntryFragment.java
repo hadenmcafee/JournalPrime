@@ -1,6 +1,7 @@
 package com.bignerdranch.android.JournalPrime;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -58,6 +59,12 @@ public class EntryFragment extends Fragment {
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private File mPhotoFile;
+    private Callbacks mCallbacks;
+
+//    required interface for hosting activities
+    public interface Callbacks{
+        void onEntryUpdated(Entry entry);
+}
 
 //    private CheckBox mSolvedCheckbox;
 //    private RecyclerView mWeatherRecyclerView;
@@ -70,6 +77,12 @@ public class EntryFragment extends Fragment {
         EntryFragment fragment = new EntryFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
     }
 
     private void updatePhotoView(){
@@ -111,6 +124,7 @@ public class EntryFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mEntry.setTitle(s.toString());
+                updateEntry();
             }
 
             @Override
@@ -166,6 +180,7 @@ public class EntryFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
                 mEntry.setSky(s.toString());
+                updateEntry();
             }
 
             @Override
@@ -191,6 +206,7 @@ public class EntryFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
                 mEntry.setTemp(s.toString());
+                updateEntry();
             }
 
             @Override
@@ -216,6 +232,7 @@ public class EntryFragment extends Fragment {
                 public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
                     mEntry.setEntryContent(s.toString());
+                    updateEntry();
                 }
 
                 @Override
@@ -345,6 +362,12 @@ public class EntryFragment extends Fragment {
     }
 
     @Override
+    public void onDetach(){
+        super.onDetach();
+        mCallbacks = null;
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             return;
@@ -370,6 +393,11 @@ public class EntryFragment extends Fragment {
             mEntry.setTime(time);
             updateTime();
         }
+    }
+
+    private void updateEntry(){
+        EntryRepository.get(getActivity()).updateEntry(mEntry);
+        mCallbacks.onEntryUpdated(mEntry);
     }
 
     private void updateDate() {

@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class EntryListActivity extends SingleFragmentActivity {
+public class EntryListActivity extends SingleFragmentActivity implements EntryListFragment.Callbacks, EntryFragment.Callbacks{
 
     @Override
     protected Fragment createFragment() {
@@ -28,5 +28,26 @@ public class EntryListActivity extends SingleFragmentActivity {
     @Override
     protected int getLayoutResId(){
         return R.layout.activity_masterdetail;
+    }
+
+    @Override
+    public void onEntrySelected(Entry entry){
+        if(findViewById(R.id.detail_fragment_container) == null){
+            Intent intent = EntryPagerActivity.newIntent(this,entry.getId());
+            startActivity(intent);
+        }else{
+            Fragment newDetail = EntryFragment.newInstance(entry.getId());
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_container, newDetail)
+                    .commit();
+        }
+    }
+
+    public void onEntryUpdated(Entry entry){
+        EntryListFragment listFragment = (EntryListFragment)
+                getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_container);
+        listFragment.updateUI();
     }
 }

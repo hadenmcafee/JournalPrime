@@ -1,5 +1,6 @@
 package com.bignerdranch.android.JournalPrime;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,18 @@ public class EntryListFragment extends Fragment {
     private RecyclerView mEntryRecyclerView;
     private EntryAdapter mAdapter;
     private boolean mSubtitleVisible;
+    private Callbacks mCallbacks;
+
+//    Required interface for hosting activities
+    public interface Callbacks{
+        void onEntrySelected(Entry entry);
+}
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
 
     public static String TAG = "TROUBLESHOOT";
 
@@ -68,6 +81,12 @@ public class EntryListFragment extends Fragment {
     }
 
     @Override
+    public void onDetach(){
+        super.onDetach();
+        mCallbacks=null;
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_entry_list, menu);
@@ -87,9 +106,11 @@ public class EntryListFragment extends Fragment {
                 Entry entry = new Entry();
                 Log.d(TAG, entry.toString());
                 EntryRepository.get(getActivity()).addEntry(entry);
-                Intent intent = EntryPagerActivity
-                        .newIntent(getActivity(), entry.getId());
-                startActivity(intent);
+//                Intent intent = EntryPagerActivity
+//                        .newIntent(getActivity(), entry.getId());
+//                startActivity(intent);
+                updateUI();
+                mCallbacks.onEntrySelected(entry);
                 return true;
             }
             case R.id.show_subtitle: {
@@ -117,7 +138,7 @@ public class EntryListFragment extends Fragment {
         activity.getSupportActionBar().setSubtitle(subtitle);
     }
 
-    private void updateUI() {
+    public void updateUI() {
         EntryRepository entryRepository = EntryRepository.get(getActivity());
         List<Entry> entries = entryRepository.getEntries();
 
@@ -169,8 +190,9 @@ public class EntryListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = EntryPagerActivity.newIntent(getActivity(), mEntry.getId());
-            startActivity(intent);
+//            Intent intent = EntryPagerActivity.newIntent(getActivity(), mEntry.getId());
+//            startActivity(intent);
+            mCallbacks.onEntrySelected(mEntry);
         }
     }
 

@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.List;
 import java.util.UUID;
 
-public class EntryPagerActivity extends AppCompatActivity {
+public class EntryPagerActivity extends AppCompatActivity implements EntryFragment.Callbacks {
 
     private static final String EXTRA_ENTRY_ID =
             "com.bignerdranch.android.JournalPrime.entry_id";
@@ -59,4 +59,10 @@ public class EntryPagerActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onEntryUpdated(Entry entry){
+
+    }
+
 }
