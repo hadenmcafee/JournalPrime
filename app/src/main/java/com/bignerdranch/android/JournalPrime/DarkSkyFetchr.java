@@ -20,7 +20,7 @@ import java.util.List;
  * Created by ad939564 on 4/9/2018.
  */
 
-//DarkskyFetchr handles the networking aspect of the API
+//DarkSkyFetchr handles the networking aspect of the API
 public class DarkSkyFetchr {
 
     private static final String TAG = "DarkSkyFetchr";
@@ -38,8 +38,8 @@ public class DarkSkyFetchr {
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK){
                 throw new IOException(connection.getResponseMessage() +
-                    ": with " +
-                    urlSpec);
+                        ": with " +
+                        urlSpec);
             }
 
             int bytesRead = 0;
@@ -71,7 +71,7 @@ public class DarkSkyFetchr {
 //                    .appendQueryParameter("lon", LON)
 //                    .build().toString();
             String jsonString = getUrlString(url);
-            Log.i(TAG, "Received JSON: " + jsonString);
+//            Log.i(TAG, "Received JSON: " + jsonString);
             JSONObject jsonBody = new JSONObject(jsonString);
             parseItems(items, jsonBody);
         }catch (IOException ioe){
@@ -85,15 +85,15 @@ public class DarkSkyFetchr {
 
     //parsing JSON
     private void parseItems(List<DarkSkyItem> items, JSONObject jsonBody)
-        throws IOException, JSONException{
+            throws JSONException{
 
         JSONObject currentlyJsonObject = jsonBody.getJSONObject("currently");
 
-        Boolean test = currentlyJsonObject.has("summary");
-        Log.i(TAG, test.toString());
-
-        Boolean testTwo = currentlyJsonObject.has("temperature");
-        Log.i(TAG, testTwo.toString());
+        //for testing, ensure object exists
+//        Boolean test = currentlyJsonObject.has("summary");
+//        Log.i(TAG, "DEBUG: API result has Summary object: " + test.toString());
+//        Boolean testTwo = currentlyJsonObject.has("temperature");
+//        Log.i(TAG, "DEBUG: API result has temperature object: " + testTwo.toString());
 
 
 //        JSONArray currentlyJsonArray = forecastJsonObject.getJSONArray("currently");
@@ -104,13 +104,15 @@ public class DarkSkyFetchr {
 //        JSONObject forecastJsonObject = currentlyJsonArray.getJSONObject(0);
 
 
-            DarkSkyItem item = new DarkSkyItem();
+        DarkSkyItem item = new DarkSkyItem();
 
-            item.setmSky(currentlyJsonObject.getString("summary"));
-            item.setmTemp(currentlyJsonObject.getString("temperature"));
+        item.setmSkyDescription(currentlyJsonObject.getString("summary"));
+        item.setmSkyIcon(currentlyJsonObject.getString("icon"));
+//            Log.e(TAG, "Set icon text within DarkSky Item = " + item.getmSkyIcon());
+        item.setmTemp(currentlyJsonObject.getString("temperature"));
 
-            items.add(item);
-        }
+        items.add(item);
+    }
 }
 
 //private static final String API ="https://api.darksky.net/forecast/0608051a6da549bf10d568618a505a37";

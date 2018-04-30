@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,9 +43,12 @@ public class EntryFragment extends Fragment {
 
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TIME = 1;
-    private static final int REQUEST_PHOTO=2;
+    private static final int REQUEST_PHOTO = 2;
 
+    //data variables
     private Entry mEntry;
+
+    //view component variables
     private EditText mTitleField;
     private Button mDateButton;
     private Button mTimeButton;
@@ -55,6 +59,7 @@ public class EntryFragment extends Fragment {
     private Button mCancelButton;
     private Button mSaveButton;
 
+    //image capture variables
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private File mPhotoFile;
@@ -72,10 +77,10 @@ public class EntryFragment extends Fragment {
         return fragment;
     }
 
-    private void updatePhotoView(){
-        if (mPhotoFile == null || !mPhotoFile.exists()){
+    private void updatePhotoView() {
+        if (mPhotoFile == null || !mPhotoFile.exists()) {
             mPhotoView.setImageDrawable(null);
-        }else {
+        } else {
             Bitmap bitmap = PictureUtils.getScaledBitmap(
                     mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
@@ -87,8 +92,8 @@ public class EntryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID entryID = (UUID) getArguments().getSerializable(ARG_ENTRY_ID);
+        //mEntry = EntryRepository.get(getActivity()).getEntry(entryID);    - old code, prior to API implementation
         mEntry = EntryRepository.get(getActivity()).getEntry(entryID);
-        new FetchItemsTask().execute();
 
         //grabbing photo file location
         mPhotoFile = EntryRepository.get(getActivity()).getPhotoFile(mEntry);
@@ -153,97 +158,81 @@ public class EntryFragment extends Fragment {
 
         //sky description //TODO
         mSkyDescriptionText = (EditText) v.findViewById(R.id.entry_sky);
-        mSkyDescriptionText.setText(mEntry.getSky());
-        mSkyDescriptionText.addTextChangedListener(new TextWatcher()
-        {
+        mSkyDescriptionText.setText(mEntry.getSkyDescription());
+        mSkyDescriptionText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                mEntry.setSky(s.toString());
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mEntry.setSkyDescription(s.toString());
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
 
             }
         });
-          //set sky description to sky at current location (Dark Sky API) OR in response to selected time?
+        //set sky description to sky at current location (Dark Sky API) OR in response to selected time?
 
         //temperature text //TODO
         mTemperatureText = (EditText) v.findViewById(R.id.entry_temp);
         mTemperatureText.setText(mEntry.getTemp());
-        mTemperatureText.addTextChangedListener(new TextWatcher()
-        {
+        mTemperatureText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mEntry.setTemp(s.toString());
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
 
             }
         });
-          //set temperature to temp at current location (Dark Sky API)
+        //set temperature to temp at current location (Dark Sky API)
 
         //entry content
         mEntryContentField = (EditText) v.findViewById(R.id.entry_content);
         mEntryContentField.setText(mEntry.getEntryContent());
-        mEntryContentField.addTextChangedListener(new TextWatcher()
-            {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after)
-                {
+        mEntryContentField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
+            }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count)
-                {
-                    mEntry.setEntryContent(s.toString());
-                }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mEntry.setEntryContent(s.toString());
+            }
 
-                @Override
-                public void afterTextChanged(Editable s)
-                {
+            @Override
+            public void afterTextChanged(Editable s) {
 
-                }
-            });
+            }
+        });
 
         //cancel button
         mCancelButton = (Button) v.findViewById(R.id.entry_cancelBtn);
-        mCancelButton.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    //return to previous screen, do not save data
-                }
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //return to previous screen, do not save data
+            }
 
-            });
+        });
 
         //save button
         mSaveButton = (Button) v.findViewById(R.id.entry_saveButton);
-        mSaveButton.setOnClickListener(new View.OnClickListener()
-        {
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 //return to previous screen, save data
             }
 
@@ -253,7 +242,7 @@ public class EntryFragment extends Fragment {
         mSolvedCheckbox.setChecked(mEntry.isSolved());
         mSolvedCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, 
+            public void onCheckedChanged(CompoundButton buttonView,
                     boolean isChecked) {
                 mEntry.setSolved(isChecked);
             }
@@ -264,16 +253,16 @@ public class EntryFragment extends Fragment {
         PackageManager packageManager = getActivity().getPackageManager();
 
         //Camera Button
-        mPhotoButton = (ImageButton) v. findViewById(R.id.entry_camera);
+        mPhotoButton = (ImageButton) v.findViewById(R.id.entry_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         boolean canTakePhoto = mPhotoFile != null &&
                 captureImage.resolveActivity(packageManager) != null;
         mPhotoButton.setEnabled(canTakePhoto);
 
-        mPhotoButton.setOnClickListener(new View.OnClickListener(){
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Uri uri = FileProvider.getUriForFile(getActivity(),
                         "com.bignerdranch.android.JournalPrime.fileprovider",
                         mPhotoFile);
@@ -283,7 +272,7 @@ public class EntryFragment extends Fragment {
                         .getPackageManager().queryIntentActivities(captureImage,
                                 PackageManager.MATCH_DEFAULT_ONLY);
 
-                for(ResolveInfo activity : cameraActivities){
+                for (ResolveInfo activity : cameraActivities) {
                     getActivity().grantUriPermission(activity.activityInfo.packageName,
                             uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 }
@@ -355,7 +344,7 @@ public class EntryFragment extends Fragment {
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mEntry.setDate(date);
             updateDate();
-        }else if (requestCode == REQUEST_PHOTO) {
+        } else if (requestCode == REQUEST_PHOTO) {
             Uri uri = FileProvider.getUriForFile(getActivity(),
                     "com.bignerdranch.android.JournalPrime.fileprovider",
                     mPhotoFile);
@@ -364,8 +353,7 @@ public class EntryFragment extends Fragment {
                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
             updatePhotoView();
-        }else if (requestCode == REQUEST_TIME)
-        {
+        } else if (requestCode == REQUEST_TIME) {
             Time time = (Time) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
             mEntry.setTime(time);
             updateTime();
@@ -377,19 +365,9 @@ public class EntryFragment extends Fragment {
         mDateButton.setText(formatter.format(mEntry.getDate())); //mDateButton.setText(mEntry.getDate().toString());
     }
 
-    private void updateTime() //TODO
-    {
-        DateFormat formatter = new SimpleDateFormat("EEE, MM/dd/yyyy");
-        mDateButton.setText(formatter.format(mEntry.getDate())); //mDateButton.setText(mEntry.getDate().toString());
+    private void updateTime() {
+        DateFormat formatter = new SimpleDateFormat("hh:mm a");
+        mTimeButton.setText(formatter.format(mEntry.getTime())); //mDateButton.setText(mEntry.getDate().toString());
 
-    }
-
-//    Writing an AsyncTask
-    private class FetchItemsTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params){
-            new DarkSkyFetchr().fetchItems();
-            return null;
-        }
     }
 }

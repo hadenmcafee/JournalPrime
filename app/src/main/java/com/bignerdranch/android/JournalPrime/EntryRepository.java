@@ -40,7 +40,7 @@ public class EntryRepository {
     }
 
     public void addEntry(Entry c) {
-        Log.d(TAG, c.toString(), new Exception());
+//        Log.d(TAG, c.toString());
         ContentValues values = getContentValues(c);
         mDatabase.insert(EntryTable.NAME, null, values);
     }
@@ -76,7 +76,7 @@ public class EntryRepository {
         }
     }
 
-//    finding photo file location
+    //    finding photo file location
     public File getPhotoFile(Entry entry){
         File filesDir = mContext.getFilesDir();
         return new File(filesDir, entry.getPhotoFilename());
@@ -112,7 +112,8 @@ public class EntryRepository {
         values.put(JOURNAL_ENTRY, entry.getEntryContent());
         values.put(TEMP, entry.getTemp());
         values.put(LOCATION, entry.getLocation());
-        values.put(SKY, entry.getSky());
+        values.put(SKY_DESCRIPTION, entry.getSkyDescription());
+        values.put(SKY_ICON_TEXT, entry.getSkyIconText());
 //        values.put(MOOD, entry.getMood());
 //        values.put(IMAGE_ONE, entry.getImage_one());
 //        values.put(IMAGE_TWO, entry.getImage_two());
@@ -120,6 +121,4 @@ public class EntryRepository {
 
         return values;
     }
-
-
 }

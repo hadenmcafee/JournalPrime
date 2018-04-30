@@ -16,4 +16,5 @@
     <string name="entry_location_label">City</string>
     <string name="entry_time_label">Time</string>
     <string name="entry_date_label">Date</string>
+    <string name="time_picker_title">Time of entry:</string>
 </resources>

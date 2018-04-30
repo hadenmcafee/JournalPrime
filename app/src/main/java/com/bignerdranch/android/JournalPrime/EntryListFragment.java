@@ -1,6 +1,7 @@
 package com.bignerdranch.android.JournalPrime;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -13,13 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.UUID;
 
 public class EntryListFragment extends Fragment {
 
@@ -28,6 +29,11 @@ public class EntryListFragment extends Fragment {
     private RecyclerView mEntryRecyclerView;
     private EntryAdapter mAdapter;
     private boolean mSubtitleVisible;
+
+    //variables to store API results
+    private String apiTempText;
+    private String apiSkyDescriptionText;
+    private String apiSkyIconText;
 
     public static String TAG = "TROUBLESHOOT";
 
@@ -83,9 +89,19 @@ public class EntryListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.new_entry: {
-                Entry entry = new Entry();
-                Log.d(TAG, entry.toString());
+            case R.id.new_entry:
+            {
+                //call the API to get the current weather - WAIT for thread to complete
+                new FetchItemsTask().execute();
+                try {
+                    Thread.sleep(2500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                Log.e(TAG, "prior to object create, API results = skyDescr: " + apiSkyDescriptionText + ", skyIcon: " + apiSkyIconText + ", temp: " + apiTempText);
+                Entry entry = new Entry(UUID.randomUUID(), apiSkyDescriptionText, apiSkyIconText, apiTempText);
+//                Log.d(TAG, entry.toString());
+                //EntryRepository.get(getActivity()).addEntry(entry);
                 EntryRepository.get(getActivity()).addEntry(entry);
                 Intent intent = EntryPagerActivity
                         .newIntent(getActivity(), entry.getId());
@@ -162,7 +178,7 @@ public class EntryListFragment extends Fragment {
             mDateTextView.setText(formatter.format(mEntry.getDate())); //mDateButton.setText(mEntry.getDate().toString());
             mFirstLineContentView.setText(mEntry.getEntryContent());
             mTempTextView.setText(mEntry.getTemp());
-            mSkyIconImageView.setImageResource(Entry.getSkyImageIndex(mEntry.getSky()));
+            mSkyIconImageView.setImageResource(Entry.getSkyImageIndex(mEntry.getSkyIconText()));
 
             //mSkyIconImageView.setVisibility(View.VISIBLE);
         }
@@ -201,6 +217,22 @@ public class EntryListFragment extends Fragment {
 
         public void setEntries(List<Entry> entries) {
             mEntries = entries;
+        }
+    }
+
+    //    Writing an AsyncTask
+    private class FetchItemsTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params){
+            List<DarkSkyItem> items = new DarkSkyFetchr().fetchItems();
+            DarkSkyItem item = items.get(0);
+
+            //get the weather description, icon text, and temperature from the API call
+            apiSkyDescriptionText = item.getmSkyDescription();
+            apiSkyIconText = item.getmSkyIcon();
+            apiTempText = item.getmTemp();
+
+            return null;
         }
     }
 }

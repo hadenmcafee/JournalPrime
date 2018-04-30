@@ -6,21 +6,22 @@ package com.bignerdranch.android.JournalPrime;
 
 //model class from darksky
 public class DarkSkyItem {
-    private String mSky;
+    private String mSkyDescription;
+    private String mSkyIcon;
     private String mTemp;
 
     @Override
     public String toString(){
-        return mSky;
+        return mSkyDescription;
     }
 
 
-    public String getmSky() {
-        return mSky;
+    public String getmSkyDescription() {
+        return mSkyDescription;
     }
 
-    public void setmSky(String mSky) {
-        this.mSky = mSky;
+    public void setmSkyDescription(String mSky) {
+        this.mSkyDescription = mSky;
     }
 
     public String getmTemp() {
@@ -29,5 +30,13 @@ public class DarkSkyItem {
 
     public void setmTemp(String mTemp) {
         this.mTemp = mTemp;
+    }
+
+    public String getmSkyIcon() {
+        return mSkyIcon;
+    }
+
+    public void setmSkyIcon(String skyIcon) {
+        mSkyIcon = skyIcon;
     }
 }

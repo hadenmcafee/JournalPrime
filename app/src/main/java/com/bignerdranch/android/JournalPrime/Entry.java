@@ -1,10 +1,11 @@
 package com.bignerdranch.android.JournalPrime;
 
 import android.util.Log;
-import android.util.Pair;
 
+import java.util.Calendar;
 import java.sql.Time;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public class Entry {
@@ -17,10 +18,11 @@ public class Entry {
     private String mEntryContent;
     private String mTemp;
     private String mLocation;
-    private String mSky;
-    private String mImage_one;
-    private String mImage_two;
-    private String mImage_three;
+    private String mSkyDescription;
+    private String mSkyIconText;
+//    private String mImage_one;
+//    private String mImage_two;
+//    private String mImage_three;
 
     //private Calendar mCalendar;
 
@@ -31,8 +33,19 @@ public class Entry {
     public Entry(UUID id) {
         mId = id;
         mDate = new Date();
-        mTime = new Time(0);
-        mSky = "";
+        mTime = new Time(Calendar.getInstance(TimeZone.getDefault()).getTimeInMillis());
+        mSkyDescription = "";
+        mSkyIconText = "";
+    }
+
+    public Entry(UUID id, String skyDescription, String skyIconText, String temp)
+    {
+        mId = id;
+        mDate = new Date();
+        mTime = new Time(Calendar.getInstance(TimeZone.getDefault()).getTimeInMillis());
+        mSkyDescription = skyDescription;
+        mSkyIconText = skyIconText;
+        mTemp = temp;
     }
 
     public UUID getId() {
@@ -59,9 +72,9 @@ public class Entry {
 
     public void setTime(Time time){mTime = time;}
 
-    public String getMood() {return mMood;}
-
-    public void setMood(String mood){mMood = mood;}
+//    public String getMood() {return mMood;}
+//
+//    public void setMood(String mood){mMood = mood;}
 
     public String getEntryContent() {
         return mEntryContent;
@@ -87,37 +100,37 @@ public class Entry {
         mLocation = location;
     }
 
-    public String getSky() {
-        return mSky;
+    public String getSkyDescription() {
+        return mSkyDescription;
     }
 
-    public void setSky(String sky) {
-        mSky = sky;
+    public void setSkyDescription(String skyDescription) {
+        mSkyDescription = skyDescription;
     }
 
-    public String getImage_one() {
-        return mImage_one;
-    }
-
-    public void setImage_one(String image_one) {
-        mImage_one = image_one;
-    }
-
-    public String getImage_two() {
-        return mImage_two;
-    }
-
-    public void setImage_two(String image_two) {
-        mImage_two = image_two;
-    }
-
-    public String getImage_three() {
-        return mImage_three;
-    }
-
-    public void setImage_three(String image_three) {
-        mImage_three = image_three;
-    }
+//    public String getImage_one() {
+//        return mImage_one;
+//    }
+//
+//    public void setImage_one(String image_one) {
+//        mImage_one = image_one;
+//    }
+//
+//    public String getImage_two() {
+//        return mImage_two;
+//    }
+//
+//    public void setImage_two(String image_two) {
+//        mImage_two = image_two;
+//    }
+//
+//    public String getImage_three() {
+//        return mImage_three;
+//    }
+//
+//    public void setImage_three(String image_three) {
+//        mImage_three = image_three;
+//    }
 
     public String toString()
     {
@@ -141,23 +154,23 @@ public class Entry {
                 private String mEntryContent;
                 private String mTemp;
                 private String mLocation;
-                private String mSky;
+                private String mSkyDescription;
                 private String mImage_one;
                 private String mImage_two;
                 private String mImage_three;
                  */
     }
 
-//    designating a picture location--need to change getId()
+    //    designating a picture location--need to change getId()
     public String getPhotoFilename(){
         return "IMG_" + getId().toString() + ".jpg";
     }
 
-    public static int getSkyImageIndex(String skyText)
+    public static int getSkyImageIndex(String skyIconText)
     {
         int resourceIndex;
 
-        switch (skyText)
+        switch (skyIconText)
         {
             case "clear-day":
             {
@@ -221,11 +234,19 @@ public class Entry {
 
             default:
             {
-                Log.e("ERROR", "Error: SKY TEXT NOT FOUND");
+                Log.e("ERROR", "Error: SKY TEXT NOT FOUND, searching for: " + skyIconText);
                 resourceIndex=R.drawable.icon_error;
             }
         }
 
         return resourceIndex;
+    }
+
+    public String getSkyIconText() {
+        return mSkyIconText;
+    }
+
+    public void setSkyIconText(String skyIconText) {
+        mSkyIconText = skyIconText;
     }
 }
