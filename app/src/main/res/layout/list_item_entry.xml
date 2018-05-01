@@ -5,47 +5,60 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
-    android:columnCount="8">
+    android:columnCount="4">
     <!--android:orientation="horizontal"-->
 
     <TextView
         android:id="@+id/entry_list_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_columnSpan="5"
+        android:layout_columnSpan="1"
         android:layout_columnWeight="2"
         android:layout_gravity="fill_horizontal"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Entry Title"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/entry_list_date"
-        android:layout_width="30dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_columnSpan="3"
-        android:layout_columnWeight="1"
+        android:layout_columnWeight="3"
         android:layout_gravity="fill_horizontal"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Entry Date" />
+        android:text="Entry Date"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/entry_list_content"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_columnWeight="3"
+        android:layout_columnSpan="1"
+        android:layout_columnWeight="6"
         android:layout_gravity="fill_horizontal"
-        android:layout_columnSpan="4"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:textSize="16sp"
         android:text="First line of text" />
+
+    <TextView
+        android:id="@+id/entry_list_time"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_columnSpan="1"
+        android:layout_columnWeight="3"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="16sp"
+        android:text="hh:mm am" />
 
     <ImageView
         android:id="@+id/entry_list_sky"
@@ -54,9 +67,7 @@
         android:layout_height="30dp"
         android:layout_columnWeight="1"
         android:layout_gravity="fill_horizontal"
-        android:layout_columnSpan="2"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_columnSpan="1"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"/>
 
@@ -64,13 +75,13 @@
         android:id="@+id/entry_list_temp"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_columnWeight="1"
-        android:layout_gravity="fill_horizontal"
-        android:layout_columnSpan="2"
+        android:layout_columnWeight="2"
+        android:layout_columnSpan="1"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:textSize="16sp"
+        android:textAlignment="viewEnd"
         android:text="Temp" />
 
 </GridLayout>

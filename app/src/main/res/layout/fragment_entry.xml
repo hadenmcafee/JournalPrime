@@ -28,6 +28,7 @@
             android:id="@+id/entry_camera"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:src="@android:drawable/ic_menu_camera"/>
     </GridLayout>
 
@@ -54,6 +55,7 @@
             android:layout_gravity="fill_horizontal"
             android:layout_columnWeight="1"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
             />
 
         <TextView
@@ -66,7 +68,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill_horizontal"/>
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginBottom="6dp"
+            android:layout_marginRight="8dp"/>
 
     </GridLayout>
 
@@ -86,7 +90,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="8dp"
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown"/>
     </GridLayout>
@@ -119,11 +125,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
+            android:layout_columnWeight="3"
             android:layout_gravity="fill_horizontal"
             android:layout_columnSpan="2"
-            android:layout_rowSpan="2"
-
+            android:layout_rowSpan="3"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="12dp"
             android:background="@android:color/darker_gray"
             android:cropToPadding="true"
             android:scaleType="centerInside" />
@@ -149,6 +156,26 @@
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_columnSpan="1"
+            android:text=""/>
+
+        <ImageView
+            android:id="@+id/entry_sky_icon"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_columnSpan="1"
+            android:layout_rowSpan="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="2"
+            android:layout_gravity="fill_vertical"
+            android:cropToPadding="false"
+            android:scaleType="fitStart"
+            android:src="@drawable/icon_error"/>
+
+        <TextView
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/entry_temp_label"/>
 
         <EditText
@@ -163,15 +190,16 @@
     </GridLayout>
 
     <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="0dp"
-        android:layout_gravity="fill_vertical"
+        android:layout_gravity="fill"
         android:orientation="vertical">
         <TextView
             style="?android:listSeparatorTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
             android:text="@string/entry_content_label"
             android:textColor="@color/colorPrimary"/>
 
@@ -179,12 +207,15 @@
             android:id="@+id/entry_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity=""
+            android:layout_gravity="fill_horizontal"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
             android:hint="Enter your thoughts here"/>
 
     </GridLayout>
 
-    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
@@ -204,7 +235,7 @@
             android:layout_gravity="right"
             android:text="Save"/>
 
-    </GridLayout>
+    </GridLayout>-->
 
     <!--CheckBox
         android:id="@+id/entry_solved"

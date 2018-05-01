@@ -90,6 +90,13 @@ public class EntryRepository {
                 new String[]{uuidString});
     }
 
+    public void deleteEntry(Entry entry)
+    {
+        String uuidString = entry.getId().toString();
+        mDatabase.delete(EntryTable.NAME, EntryTable.Cols.UUID + " = ?",
+                new String[]{uuidString});
+    }
+
     private EntryCursorWrapper queryEntries(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 EntryTable.NAME,

@@ -4,8 +4,8 @@ android {
     compileSdkVersion 25
     //buildToolsVersion '25.0.2'
     defaultConfig {
-        applicationId "com.bignerdranch.android.criminalintent"
-        minSdkVersion 19
+        applicationId "com.bignerdranch.android.journalprime"
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"

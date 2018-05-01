@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -156,6 +157,7 @@ public class EntryListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private TextView mFirstLineContentView;
+        private TextView mTimeTextView;
         private ImageView mSkyIconImageView;
         private TextView mTempTextView;
 
@@ -166,17 +168,34 @@ public class EntryListFragment extends Fragment {
             mTitleTextView = (TextView) itemView.findViewById(R.id.entry_list_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.entry_list_date);
             mFirstLineContentView = (TextView) itemView.findViewById(R.id.entry_list_content);
+            mTimeTextView = (TextView) itemView.findViewById(R.id.entry_list_time);
             mSkyIconImageView = (ImageView) itemView.findViewById(R.id.entry_list_sky);
             mTempTextView = (TextView) itemView.findViewById(R.id.entry_list_temp);
         }
 
         public void bind(Entry entry) {
-            DateFormat formatter = new SimpleDateFormat("EEE, MM/dd/yyyy");
+            DateFormat formatter = new SimpleDateFormat("EEEE, MMMM dd, yyyy");
 
+            //assign the entry
             mEntry = entry;
+
+            //get the number of characters within the content string, to avoid array index out of bounds exception
+            int numCharactersInEntryContent = mEntry.getEntryContent().length();
+            int displayIndex = Math.min(numCharactersInEntryContent, 17);
+
+            //get the hour and minute from the entry's time
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(mEntry.getTime());
+            int hour = calendar.get(Calendar.HOUR);
+            int minute = calendar.get(Calendar.MINUTE);
+            int ampm = calendar.get(Calendar.AM_PM);
+            String am_pm = (ampm == 0 ? "am" : "pm");
+//            Log.e(TAG, "AM/PM = " + ampm);
+
             mTitleTextView.setText(mEntry.getTitle());
             mDateTextView.setText(formatter.format(mEntry.getDate())); //mDateButton.setText(mEntry.getDate().toString());
-            mFirstLineContentView.setText(mEntry.getEntryContent());
+            mFirstLineContentView.setText(mEntry.getEntryContent().substring(0,displayIndex) + "...");
+            mTimeTextView.setText(hour + ":" + minute + " " + am_pm);
             mTempTextView.setText(mEntry.getTemp());
             mSkyIconImageView.setImageResource(Entry.getSkyImageIndex(mEntry.getSkyIconText()));
 

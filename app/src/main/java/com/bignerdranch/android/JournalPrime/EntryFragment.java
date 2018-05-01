@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -14,8 +13,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -56,11 +57,12 @@ public class EntryFragment extends Fragment {
     private TextView mSkyDescriptionText;
     private TextView mTemperatureText;
     private EditText mEntryContentField;
-    private Button mCancelButton;
-    private Button mSaveButton;
+//    private Button mCancelButton;
+//    private Button mSaveButton;
 
     //image capture variables
     private ImageButton mPhotoButton;
+    private ImageView mSkyIconImageView;
     private ImageView mPhotoView;
     private File mPhotoFile;
 
@@ -91,8 +93,8 @@ public class EntryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         UUID entryID = (UUID) getArguments().getSerializable(ARG_ENTRY_ID);
-        //mEntry = EntryRepository.get(getActivity()).getEntry(entryID);    - old code, prior to API implementation
         mEntry = EntryRepository.get(getActivity()).getEntry(entryID);
 
         //grabbing photo file location
@@ -138,7 +140,7 @@ public class EntryFragment extends Fragment {
             }
         });
 
-        //time button //TODO
+        //time button
         mTimeButton = (Button) v.findViewById(R.id.entry_time);
         updateTime();
         mTimeButton.setOnClickListener(new View.OnClickListener() {
@@ -152,11 +154,11 @@ public class EntryFragment extends Fragment {
             }
         });
 
-        //location spinner //TODO
+        //location spinner
         mLocationSpinner = (Spinner) v.findViewById(R.id.entry_location);
         mLocationSpinner.setPrompt("Please Select a Location");
 
-        //sky description //TODO
+        //sky description
         mSkyDescriptionText = (EditText) v.findViewById(R.id.entry_sky);
         mSkyDescriptionText.setText(mEntry.getSkyDescription());
         mSkyDescriptionText.addTextChangedListener(new TextWatcher() {
@@ -175,9 +177,8 @@ public class EntryFragment extends Fragment {
 
             }
         });
-        //set sky description to sky at current location (Dark Sky API) OR in response to selected time?
 
-        //temperature text //TODO
+        //temperature text
         mTemperatureText = (EditText) v.findViewById(R.id.entry_temp);
         mTemperatureText.setText(mEntry.getTemp());
         mTemperatureText.addTextChangedListener(new TextWatcher() {
@@ -196,7 +197,6 @@ public class EntryFragment extends Fragment {
 
             }
         });
-        //set temperature to temp at current location (Dark Sky API)
 
         //entry content
         mEntryContentField = (EditText) v.findViewById(R.id.entry_content);
@@ -218,7 +218,7 @@ public class EntryFragment extends Fragment {
             }
         });
 
-        //cancel button
+        /*//cancel button
         mCancelButton = (Button) v.findViewById(R.id.entry_cancelBtn);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +236,7 @@ public class EntryFragment extends Fragment {
                 //return to previous screen, save data
             }
 
-        });
+        });*/
 
         /*mSolvedCheckbox = (CheckBox) v.findViewById(R.id.entry_solved);
         mSolvedCheckbox.setChecked(mEntry.isSolved());
@@ -252,7 +252,7 @@ public class EntryFragment extends Fragment {
         //Camera intent
         PackageManager packageManager = getActivity().getPackageManager();
 
-        //Camera Button
+        //Camera Button & Image
         mPhotoButton = (ImageButton) v.findViewById(R.id.entry_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -282,6 +282,10 @@ public class EntryFragment extends Fragment {
 
         mPhotoView = (ImageView) v.findViewById(R.id.entry_photo);
         updatePhotoView();
+
+        //skyIcon
+        mSkyIconImageView = (ImageView) v.findViewById(R.id.entry_sky_icon);
+        mSkyIconImageView.setImageResource(Entry.getSkyImageIndex(mEntry.getSkyIconText()));
 
         return v;
     }
@@ -324,6 +328,35 @@ public class EntryFragment extends Fragment {
 //            return mDarkSkyItems.size();
 //        }
 //    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_entry, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_entry:
+            {
+                //confirm delete via dialog //TODO
+
+
+                //on confirm, delete entry
+                EntryRepository entriesRepository = EntryRepository.get(getActivity());
+                entriesRepository.deleteEntry(mEntry);
+
+                //display confirmation dialog, back out of the detail view //TODO
+
+
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
 
     @Override
     public void onPause() {

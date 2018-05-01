@@ -36,6 +36,7 @@ public class Entry {
         mTime = new Time(Calendar.getInstance(TimeZone.getDefault()).getTimeInMillis());
         mSkyDescription = "";
         mSkyIconText = "";
+        mEntryContent = "";
     }
 
     public Entry(UUID id, String skyDescription, String skyIconText, String temp)
@@ -46,6 +47,7 @@ public class Entry {
         mSkyDescription = skyDescription;
         mSkyIconText = skyIconText;
         mTemp = temp;
+        mEntryContent = "";
     }
 
     public UUID getId() {

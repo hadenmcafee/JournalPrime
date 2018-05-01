@@ -6,6 +6,7 @@
     <string name="entry_solved_label">Solved</string>
     <string name="date_picker_title">Date of entry:</string>
     <string name="new_entry">New Entry</string>
+    <string name="delete_entry">Delete Entry</string>
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle_format">%1$d entries</string>
