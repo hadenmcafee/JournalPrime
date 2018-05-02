@@ -10,16 +10,16 @@ import java.util.UUID;
 
 public class Entry {
 
-    private UUID mId;
-    private String mTitle;
-    private Date mDate;
-    private Time mTime;
-    private String mMood;
-    private String mEntryContent;
-    private String mTemp;
-    private String mLocation;
-    private String mSkyDescription;
-    private String mSkyIconText;
+    public UUID mId;
+    public String mTitle;
+    public Date mDate;
+    public Time mTime;
+//    public String mMood;
+    public String mEntryContent;
+    public String mTemp;
+    public String mLocation;
+    public String mSkyDescription;
+    public String mSkyIconText;
 //    private String mImage_one;
 //    private String mImage_two;
 //    private String mImage_three;

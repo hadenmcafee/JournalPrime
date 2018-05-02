@@ -25,11 +25,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -87,7 +93,6 @@ public class EntryFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +102,21 @@ public class EntryFragment extends Fragment {
 
         //grabbing photo file location
         mPhotoFile = EntryRepository.get(getActivity()).getPhotoFile(mEntry);
+
+        //writing to Firebase
+        FirebaseDatabase database =  FirebaseDatabase.getInstance();
+        UUID entryId = mEntry.getId();
+        DatabaseReference mRef =  database.getReference().child("Entries").child(String.valueOf(entryId));
+        mRef.child("title").setValue(mTitleField);
+        mRef.child("date").setValue(mDateButton);
+        mRef.child("time").setValue(mTimeButton);
+        mRef.child("entryContent").setValue(mEntryContentField);
+        mRef.child("temp").setValue(mTemperatureText);
+        mRef.child("location").setValue(mLocationSpinner);
+        mRef.child("skyDescription").setValue(mSkyDescriptionText);
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

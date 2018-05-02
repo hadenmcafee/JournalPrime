@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JournalPrime.iml" filepath="$PROJECT_DIR$/JournalPrime.iml" />
+      <module fileurl="file://C:\cidm4385\JournalPrime\JournalPrime.iml" filepath="C:\cidm4385\JournalPrime\JournalPrime.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\cidm4385\JournalPrime\app\app.iml" filepath="C:\cidm4385\JournalPrime\app\app.iml" />
     </modules>
   </component>
 </project>
