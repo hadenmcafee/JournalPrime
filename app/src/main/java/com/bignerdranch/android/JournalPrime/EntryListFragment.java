@@ -3,6 +3,7 @@ package com.bignerdranch.android.JournalPrime;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -42,6 +43,18 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
     private RecyclerView mEntryRecyclerView;
     private EntryAdapter mAdapter;
     private boolean mSubtitleVisible;
+    private Callbacks mCallbacks;
+
+//    Required interface for hosting activities
+    public interface Callbacks{
+        void onEntrySelected(Entry entry);
+}
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
 
     //variables to store API results
     private boolean apiCallFinished;
@@ -101,6 +114,12 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
     }
 
     @Override
+    public void onDetach(){
+        super.onDetach();
+        mCallbacks=null;
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_entry_list, menu);
@@ -157,9 +176,11 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
                 //3. Add the entry to the repository
                 EntryRepository.get(getActivity()).addEntry(entry);
-                Intent intent = EntryPagerActivity
-                        .newIntent(getActivity(), entry.getId());
-                startActivity(intent);
+//                Intent intent = EntryPagerActivity
+//                        .newIntent(getActivity(), entry.getId());
+//                startActivity(intent);
+                updateUI();
+                mCallbacks.onEntrySelected(entry);
                 return true;
             }
             case R.id.show_subtitle: {
@@ -187,7 +208,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
         activity.getSupportActionBar().setSubtitle(subtitle);
     }
 
-    private void updateUI() {
+    public void updateUI() {
         EntryRepository entryRepository = EntryRepository.get(getActivity());
         List<Entry> entries = entryRepository.getEntries();
 
@@ -339,8 +360,9 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
         @Override
         public void onClick(View view) {
-            Intent intent = EntryPagerActivity.newIntent(getActivity(), mEntry.getId());
-            startActivity(intent);
+//            Intent intent = EntryPagerActivity.newIntent(getActivity(), mEntry.getId());
+////            startActivity(intent);
+            mCallbacks.onEntrySelected(mEntry);
         }
     }
 
