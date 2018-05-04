@@ -243,7 +243,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 //            ActivityCompat.requestPermissions(this.getActivity(), stringToStringArray(Manifest.permission.ACCESS_FINE_LOCATION), 0);
             requestPermissions(stringToStringArray(Manifest.permission.ACCESS_FINE_LOCATION), 0);
 
-            Thread.sleep(2000);
+            Thread.sleep(4000);
         }
 
 //        //ensure user

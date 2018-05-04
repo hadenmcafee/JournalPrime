@@ -414,9 +414,9 @@ public class EntryFragment extends Fragment {
         }
 
         if (requestCode == REQUEST_DATE) {
-            long date = (long) data
+            Date date = (Date) data
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mEntry.setDate(date);
+            mEntry.setDate(date.getTime());
             updateDate();
         } else if (requestCode == REQUEST_PHOTO) {
             Uri uri = FileProvider.getUriForFile(getActivity(),
@@ -428,8 +428,8 @@ public class EntryFragment extends Fragment {
 
             updatePhotoView();
         } else if (requestCode == REQUEST_TIME) {
-            long time = (long) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-            mEntry.setTime(time);
+            Time time = (Time) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+            mEntry.setTime(time.getTime());
             updateTime();
         }
     }
