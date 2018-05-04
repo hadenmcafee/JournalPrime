@@ -19,6 +19,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -156,7 +158,21 @@ public class EntryFragment extends Fragment {
 
         //location spinner
         mLocationSpinner = (Spinner) v.findViewById(R.id.entry_location);
-        mLocationSpinner.setPrompt("Please Select a Location");
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
+                R.array.cities_of_Texas, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mLocationSpinner.setAdapter(adapter);
+        mLocationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //mLocationSpinner. = getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //sky description
         mSkyDescriptionText = (EditText) v.findViewById(R.id.entry_sky);
@@ -373,7 +389,7 @@ public class EntryFragment extends Fragment {
         }
 
         if (requestCode == REQUEST_DATE) {
-            Date date = (Date) data
+            long date = (long) data
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mEntry.setDate(date);
             updateDate();
@@ -387,7 +403,7 @@ public class EntryFragment extends Fragment {
 
             updatePhotoView();
         } else if (requestCode == REQUEST_TIME) {
-            Time time = (Time) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+            long time = (long) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
             mEntry.setTime(time);
             updateTime();
         }

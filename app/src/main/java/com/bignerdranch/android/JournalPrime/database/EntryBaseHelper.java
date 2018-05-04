@@ -28,11 +28,6 @@ public class EntryBaseHelper extends SQLiteOpenHelper {
                         EntryTable.Cols.LOCATION + ", " +
                         EntryTable.Cols.SKY_DESCRIPTION + ", " +
                         EntryTable.Cols.SKY_ICON_TEXT +")"
-//                EntryTable.Cols.MOOD + ", " +
-//                EntryTable.Cols.IMAGE_ONE + ", " +
-//                EntryTable.Cols.IMAGE_TWO + ", " +
-//                EntryTable.Cols.IMAGE_THREE +
-//                ")"
         );
     }
 

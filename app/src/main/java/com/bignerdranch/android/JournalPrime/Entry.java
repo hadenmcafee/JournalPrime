@@ -3,7 +3,6 @@ package com.bignerdranch.android.JournalPrime;
 import android.util.Log;
 
 import java.util.Calendar;
-import java.sql.Time;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -12,19 +11,13 @@ public class Entry {
 
     private UUID mId;
     private String mTitle;
-    private Date mDate;
-    private Time mTime;
-    private String mMood;
+    private long mDate;
+    private long mTime;
     private String mEntryContent;
     private String mTemp;
     private String mLocation;
     private String mSkyDescription;
     private String mSkyIconText;
-//    private String mImage_one;
-//    private String mImage_two;
-//    private String mImage_three;
-
-    //private Calendar mCalendar;
 
     public Entry() {
         this(UUID.randomUUID());
@@ -32,8 +25,8 @@ public class Entry {
 
     public Entry(UUID id) {
         mId = id;
-        mDate = new Date();
-        mTime = new Time(Calendar.getInstance(TimeZone.getDefault()).getTimeInMillis());
+        mDate = new Date().getTime();
+        mTime = Calendar.getInstance(TimeZone.getDefault()).getTimeInMillis();
         mSkyDescription = "";
         mSkyIconText = "";
         mEntryContent = "";
@@ -42,23 +35,13 @@ public class Entry {
     public Entry(UUID id, String skyDescription, String skyIconText, String temp)
     {
         mId = id;
-        mDate = new Date();
-        mTime = new Time(Calendar.getInstance(TimeZone.getDefault()).getTimeInMillis());
+        mDate = new Date().getTime();
+        mTime = Calendar.getInstance(TimeZone.getDefault()).getTimeInMillis();
         mSkyDescription = skyDescription;
         mSkyIconText = skyIconText;
         mTemp = temp;
         mEntryContent = "";
     }
-//    public Entry(UUID id, String skyDescription, String skyIconText, String temp, Time time)
-//    {
-//        mId = id;
-//        mDate = new Date();
-//        mTime = time;
-//        mSkyDescription = skyDescription;
-//        mSkyIconText = skyIconText;
-//        mTemp = temp;
-//        mEntryContent = "";
-//    }
 
     public UUID getId() {
         return mId;
@@ -72,21 +55,17 @@ public class Entry {
         mTitle = title;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return mDate;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         mDate = date;
     }
 
-    public Time getTime() {return mTime;}
+    public long getTime() {return mTime;}
 
-    public void setTime(Time time){mTime = time;}
-
-//    public String getMood() {return mMood;}
-//
-//    public void setMood(String mood){mMood = mood;}
+    public void setTime(long time){mTime = time;}
 
     public String getEntryContent() {
         return mEntryContent;
@@ -120,57 +99,18 @@ public class Entry {
         mSkyDescription = skyDescription;
     }
 
-//    public String getImage_one() {
-//        return mImage_one;
-//    }
-//
-//    public void setImage_one(String image_one) {
-//        mImage_one = image_one;
-//    }
-//
-//    public String getImage_two() {
-//        return mImage_two;
-//    }
-//
-//    public void setImage_two(String image_two) {
-//        mImage_two = image_two;
-//    }
-//
-//    public String getImage_three() {
-//        return mImage_three;
-//    }
-//
-//    public void setImage_three(String image_three) {
-//        mImage_three = image_three;
-//    }
 
     public String toString()
     {
-        return "\n\nTitle: " + mTemp + ",\n" +
-                "Date: " + mDate.toString() + ",\n" +
-                "Time: " + mTime.toString();
-
-                /*"Mood: " + mTemp + ",\n" +
-                "Sky: " + mTemp + ",\n" +
-                "Entry: " + mTemp + ",\n" +
-                "Mood: " + mTemp + ",\n" +
-                "Mood: " + mTemp + ",\n" +
-                "Mood: " + mTemp + ",\n" +
-                "Mood: " + mTemp + ",\n" +
-
-                private UUID mId;
-                private String mTitle;
-                private Date mDate;
-                private Time mTime;
-                private String mMood;
-                private String mEntryContent;
-                private String mTemp;
-                private String mLocation;
-                private String mSkyDescription;
-                private String mImage_one;
-                private String mImage_two;
-                private String mImage_three;
-                 */
+        return "\n\n" +
+                "Title: " + mTitle + ",\n" +
+                "Date: " + mDate + ",\n" +
+                "Time: " + mTime + "\n" +
+                "Location: " + mLocation + "\n" +
+                "Sky Description: " + mSkyDescription + ",\n" +
+                "Sky Icon: " + mSkyIconText + ",\n" +
+                "Temp: " + mTemp + ",\n" +
+                "Entry Content: " + mEntryContent + ",\n";
     }
 
     //    designating a picture location--need to change getId()

@@ -26,7 +26,7 @@ public class TimePickerFragment extends DialogFragment
 
     private TimePicker mTimePicker;
 
-    public static TimePickerFragment newInstance(Time time) {
+    public static TimePickerFragment newInstance(long time) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_TIME, time);
 
@@ -37,10 +37,10 @@ public class TimePickerFragment extends DialogFragment
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Time time = (Time) getArguments().getSerializable(ARG_TIME);
+        long time = (long) getArguments().getSerializable(ARG_TIME);
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(time);
+        calendar.setTime(new Time(time));
         int hour = calendar.get(Calendar.HOUR);
         int minute = calendar.get(Calendar.MINUTE);
 

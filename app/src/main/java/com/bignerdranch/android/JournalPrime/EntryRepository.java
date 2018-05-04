@@ -22,7 +22,7 @@ public class EntryRepository {
     private Context mContext;
     private SQLiteDatabase mDatabase;
 
-    public static String TAG = "TROUBLESHOOT";
+    public static String TAG = "EntryRepository";
 
     public static EntryRepository get(Context context) {
         if (sEntryRepository == null) {
@@ -114,17 +114,13 @@ public class EntryRepository {
         ContentValues values = new ContentValues();
         values.put(UUID, entry.getId().toString());
         values.put(TITLE, entry.getTitle());
-        values.put(DATE, entry.getDate().getTime());
-        values.put(TIME, entry.getTime().getTime());
+        values.put(DATE, entry.getDate());
+        values.put(TIME, entry.getTime());
         values.put(JOURNAL_ENTRY, entry.getEntryContent());
         values.put(TEMP, entry.getTemp());
         values.put(LOCATION, entry.getLocation());
         values.put(SKY_DESCRIPTION, entry.getSkyDescription());
         values.put(SKY_ICON_TEXT, entry.getSkyIconText());
-//        values.put(MOOD, entry.getMood());
-//        values.put(IMAGE_ONE, entry.getImage_one());
-//        values.put(IMAGE_TWO, entry.getImage_two());
-//        values.put(IMAGE_THREE, entry.getImage_three());
 
         return values;
     }

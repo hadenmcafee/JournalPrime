@@ -21,34 +21,23 @@ public class EntryCursorWrapper extends CursorWrapper {
         String title = getString(getColumnIndex(EntryTable.Cols.TITLE));
         long date = getLong(getColumnIndex(EntryTable.Cols.DATE));
         long time = getLong(getColumnIndex(EntryTable.Cols.TIME));
-//        String mood = getString(getColumnIndex(EntryTable.Cols.MOOD));
         String journal_entry = getString(getColumnIndex(EntryTable.Cols.JOURNAL_ENTRY));
         String temp = getString(getColumnIndex(EntryTable.Cols.TEMP));
         String location = getString(getColumnIndex(EntryTable.Cols.LOCATION));
         String sky_description = getString(getColumnIndex(EntryTable.Cols.SKY_DESCRIPTION));
         String sky_icon_text = getString(getColumnIndex(EntryTable.Cols.SKY_ICON_TEXT));
-//        String image_one = getString(getColumnIndex(EntryTable.Cols.IMAGE_ONE));
-//        String image_two = getString(getColumnIndex(EntryTable.Cols.IMAGE_TWO));
-//        String image_three = getString(getColumnIndex(EntryTable.Cols.IMAGE_THREE));
 
         Entry entry = new Entry(UUID.fromString(uuidString));
         entry.setTitle(title);
-        entry.setDate(new Date(date));
-        entry.setTime(new Time(time));
-//        entry.setMood(mood);
+        entry.setDate(date);
+        entry.setTime(time);
         entry.setEntryContent(journal_entry);
         entry.setTemp(temp);
         entry.setLocation(location);
         entry.setSkyDescription(sky_description);
         entry.setSkyIconText(sky_icon_text);
-//        entry.setImage_one(image_one);
-//        entry.setImage_two(image_two);
-//        entry.setImage_three(image_three);
 
         return entry;
     }
 
-//    public Image getImage(){
-//
-//    }
 }

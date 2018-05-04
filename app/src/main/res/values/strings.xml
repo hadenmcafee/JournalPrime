@@ -18,4 +18,17 @@
     <string name="entry_time_label">Time</string>
     <string name="entry_date_label">Date</string>
     <string name="time_picker_title">Time of entry:</string>
+    <string-array name="cities_of_Texas">
+        <item>Amarillo</item>
+        <item>Austin</item>
+        <item>Canyon</item>
+        <item>Corpus Cristi</item>
+        <item>Dallas</item>
+        <item>El Paso</item>
+        <item>Fort Worth</item>
+        <item>Houston</item>
+        <item>Lubbock</item>
+        <item>San Antonio</item>
+        <item>Waco</item>
+    </string-array>
 </resources>

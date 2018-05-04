@@ -19,13 +19,13 @@ public class EntryDbSchema {
         }
     }
 
-    public static final class ImageTable{
-        public static final String NAME = "images";
-
-        public static final class Cols {
-            public static final String UUID = "uuid";
-            public static final String ENTRY_ID = "corresponding_entry";
-            public static final String IMAGE_ONE = "image";
-        }
-    }
+//    public static final class ImageTable{
+//        public static final String NAME = "images";
+//
+//        public static final class Cols {
+//            public static final String UUID = "uuid";
+//            public static final String ENTRY_ID = "corresponding_entry";
+//            public static final String IMAGE_ONE = "image";
+//        }
+//    }
 }

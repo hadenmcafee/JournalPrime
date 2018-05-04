@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,36 +44,17 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
     private boolean mSubtitleVisible;
 
     //variables to store API results
+    private boolean apiCallFinished;
     private String apiTempText;
     private String apiSkyDescriptionText;
     private String apiSkyIconText;
 
     //variables to access GPS location
-//    private static final String ARG_LAT = "lat";
-//    private static final String ARG_LONG = "long";
     Activity mActivity;
     private LocationManager mLocationManager;
 
 
-    public static String TAG = "ENTRYLISTFRAGMENT";
-
-//    //create a constructor to obtain location manager from calling activity
-//    public EntryListFragment(LocationManager locationManager)
-//    {
-//        mLocationManager = locationManager;
-//    }
-//
-////    public static EntryListFragment newInstance(double latitude, double longitude)
-//    {
-//        Bundle args = new Bundle();
-//        args.putSerializable(ARG_LAT, latitude);
-//        args.putSerializable(ARG_LONG, longitude);
-//        args.putSerializable(ARG_LOCATION_MANAGER, )
-//
-//        EntryListFragment fragment = new EntryListFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
+    public static String TAG = "EntryListFragment";
 
     @Override
     public void onAttach(Context context) {
@@ -133,8 +115,12 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.new_entry: {
+        switch (item.getItemId())
+        {
+            case R.id.new_entry:
+            {
+                Entry entry;
+
                 //1. Get the current/last known location
                 Pair latLong = null;
                 try {
@@ -144,22 +130,32 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
                 }
                 Log.d(TAG, "getLatLong returned value of " + latLong.toString());
 
-                //2. call the API to get the current weather - WAIT for thread to complete
-                new FetchItemsTask(latLong).execute();
-                try {
-                    Thread.sleep(2500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Log.d(TAG, "prior to object create, API results = skyDescr: " +
-                      apiSkyDescriptionText + ", skyIcon: " + apiSkyIconText + ", temp: " + apiTempText);
+                //2. if the location was successfully obtained, call the API to get the current weather
+                if(latLong!=null)
+                {
+                    new FetchItemsTask(latLong).execute();
+                    try {
+                        while(!apiCallFinished)
+                        {
+                            Thread.sleep(250);// WAIT for API call thread to complete
+                        }
 
-                //3. Create a new entry using the obtained weather information
-                //TODO: get time zone from location
-                Entry entry = new Entry(UUID.randomUUID(), apiSkyDescriptionText, apiSkyIconText, apiTempText);
-//                Time localTime = new Time(Calendar.getInstance(TimeZone.getTimeZone("US/Central")).getTimeInMillis());
-//                Entry entry = new Entry(UUID.randomUUID(), apiSkyDescriptionText, apiSkyIconText, apiTempText, localTime);
-//                Log.d(TAG, entry.toString());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d(TAG, "prior to object create, API results = skyDescr: " +
+                            apiSkyDescriptionText + ", skyIcon: " + apiSkyIconText + ", temp: " + apiTempText);
+
+                    //Create a new entry using the obtained weather information
+                    entry = new Entry(UUID.randomUUID(), apiSkyDescriptionText, apiSkyIconText, apiTempText);
+                }
+                else
+                {
+                    //Create a new entry using default constructor
+                    entry = new Entry();
+                }
+
+                //3. Add the entry to the repository
                 EntryRepository.get(getActivity()).addEntry(entry);
                 Intent intent = EntryPagerActivity
                         .newIntent(getActivity(), entry.getId());
@@ -223,29 +219,69 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
     private Pair<Double, Double> getLatLong() throws InterruptedException {
         //check permission to access location; if the required permission is not granted, request it
-        if (ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             Log.d(TAG, "App does not have location permission, requesting access...");
-            ActivityCompat.requestPermissions(this.getActivity(), stringToStringArray(Manifest.permission.ACCESS_FINE_LOCATION), 0);
-            Log.d(TAG, "App has requested permissions");
-            Thread.sleep(5000); //TODO: Pause thread until action taken, rather than wait 5 seconds
+//            ActivityCompat.requestPermissions(this.getActivity(), stringToStringArray(Manifest.permission.ACCESS_FINE_LOCATION), 0);
+            requestPermissions(stringToStringArray(Manifest.permission.ACCESS_FINE_LOCATION), 0);
+
+            Thread.sleep(2000);
         }
 
-        //TODO: handle case where permission is denied
+//        //ensure user
+//        while(!EntryListActivity.isLocPermissionDetermined())
+//        {
+//            Thread.sleep(250);
+//        }
 
-        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Log.d(TAG, "Location Manager Created");
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-        Log.d(TAG, "Location gathered: latitude = " + latitude + ", longitude = " + longitude);
+        if (ContextCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            Log.d(TAG, "App has requested permissions");
+            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Log.d(TAG, "Location Manager Created");
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            Log.d(TAG, "Location gathered: latitude = " + latitude + ", longitude = " + longitude);
 
-        return new Pair(latitude, longitude);
+            return new Pair(latitude, longitude);
+        }
+
+        return null;
+
     }
 
     private String[] stringToStringArray(String givenString)
     {
         String[] stringsArray = {givenString};
         return stringsArray;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String [] permissions, int[] grantResults)
+    {
+        if(requestCode == 0)
+        {
+            Log.d(TAG, "Request code = 0");
+
+            if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Log.d(TAG, "Permission granted");
+                EntryListActivity.setLocPermissionGranted(true);
+                EntryListActivity.setLocPermissionDetermined(true);
+                Log.d(TAG, "PermissionDetermined flag set");
+            }
+            else
+            {
+                Log.d(TAG, "Permission not granted");
+                EntryListActivity.setLocPermissionGranted(false);
+                EntryListActivity.setLocPermissionDetermined(true);
+                Log.d(TAG, "PermissionDetermined flag set");
+
+            }
+            return;
+        }
+
+        Log.d(TAG, "Request code != 0");
     }
 
     private class EntryHolder extends RecyclerView.ViewHolder
@@ -284,7 +320,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
             //get the hour and minute from the entry's time
             Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-            calendar.setTime(mEntry.getTime());
+            calendar.setTime(new Time(mEntry.getTime()));
             int hour = calendar.get(Calendar.HOUR);
             int minute = calendar.get(Calendar.MINUTE);
             int ampm = calendar.get(Calendar.AM_PM);
@@ -357,6 +393,8 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
             apiSkyDescriptionText = item.getmSkyDescription();
             apiSkyIconText = item.getmSkyIcon();
             apiTempText = item.getmTemp();
+
+            apiCallFinished = true;
 
             return null;
         }
