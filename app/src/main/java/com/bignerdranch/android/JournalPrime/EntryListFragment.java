@@ -327,7 +327,8 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
         }
 
         public void bind(Entry entry) {
-            DateFormat formatter = new SimpleDateFormat("EEEE, MMMM dd, yyyy");
+            DateFormat dateFormatter = new SimpleDateFormat("EEEE, MMMM dd, yyyy");
+            DateFormat timeFormatter = new SimpleDateFormat("h:mm a");
 
             //assign the entry
             mEntry = entry;
@@ -335,20 +336,20 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
             //get the number of characters within the content string, to avoid array index out of bounds exception
             int numCharactersInEntryContent = mEntry.getEntryContent().length();
             int displayIndex = Math.min(numCharactersInEntryContent, 17);
+            String addDots = "";
+            if(displayIndex == 17)
+            {
+                addDots = "...";
+            }
 
             //get the hour and minute from the entry's time
             Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
             calendar.setTime(new Time(mEntry.getTime()));
-            int hour = calendar.get(Calendar.HOUR);
-            int minute = calendar.get(Calendar.MINUTE);
-            int ampm = calendar.get(Calendar.AM_PM);
-            String am_pm = (ampm == 0 ? "am" : "pm");
-//            Log.e(TAG, "AM/PM = " + ampm);
 
             mTitleTextView.setText(mEntry.getTitle());
-            mDateTextView.setText(formatter.format(mEntry.getDate())); //mDateButton.setText(mEntry.getDate().toString());
-            mFirstLineContentView.setText(mEntry.getEntryContent().substring(0,displayIndex) + "...");
-            mTimeTextView.setText(hour + ":" + minute + " " + am_pm);
+            mDateTextView.setText(dateFormatter.format(mEntry.getDate())); //mDateButton.setText(mEntry.getDate().toString());
+            mFirstLineContentView.setText(mEntry.getEntryContent().substring(0,displayIndex) + addDots);
+            mTimeTextView.setText(timeFormatter.format(mEntry.getTime()));
             mTempTextView.setText(mEntry.getTemp());
             mSkyIconImageView.setImageResource(Entry.getSkyImageIndex(mEntry.getSkyIconText()));
 
@@ -417,5 +418,6 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
             return null;
         }
+
     }
 }
