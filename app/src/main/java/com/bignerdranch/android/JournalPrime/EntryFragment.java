@@ -198,11 +198,9 @@ public class EntryFragment extends Fragment {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mEntry.setSkyDescription(s.toString());
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
-                mEntry.setSky(s.toString());
+                mEntry.setSkyDescription(s.toString());
                 updateEntry();
             }
 
@@ -453,3 +451,4 @@ public class EntryFragment extends Fragment {
 
     }
 }
+

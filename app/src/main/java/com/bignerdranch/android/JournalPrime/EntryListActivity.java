@@ -21,8 +21,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class EntryListActivity extends SingleFragmentActivity implements EntryListFragment.Callbacks, EntryFragment.Callbacks{
-public class EntryListActivity extends SingleFragmentActivity
+public class EntryListActivity extends SingleFragmentActivity implements EntryListFragment.Callbacks, EntryFragment.Callbacks
 {
     private static String TAG = "EntryListActivity";
     private static boolean mLocPermissionDetermined = false;

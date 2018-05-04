@@ -53,6 +53,11 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
+        mActivity = getActivity();
+
+        mLocationManager = (LocationManager) mActivity.getSystemService(Context.LOCATION_SERVICE);
+        Log.d(TAG, "Location Manager successfully assigned");
+
         mCallbacks = (Callbacks) context;
     }
 
@@ -69,14 +74,6 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
     public static String TAG = "EntryListFragment";
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mActivity = getActivity();
-
-        mLocationManager = (LocationManager) mActivity.getSystemService(Context.LOCATION_SERVICE);
-        Log.d(TAG, "Location Manager successfully assigned");
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
