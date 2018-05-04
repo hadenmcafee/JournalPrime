@@ -58,21 +58,24 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
     @Override
     public void onAttach(Context context) {
+        Log.d(TAG, "Inside onAttach function");
         super.onAttach(context);
         mActivity = getActivity();
 
         mLocationManager = (LocationManager) mActivity.getSystemService(Context.LOCATION_SERVICE);
-        Log.d(TAG, "Location Manager successfully assigned");
+        Log.d(TAG, "Leaving onAttach function, Location Manager successfully assigned");
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "Inside onCreate function");
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "Inside onCreateView function");
         View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
 
         mEntryRecyclerView = (RecyclerView) view
@@ -85,24 +88,28 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
         updateUI();
 
+        Log.d(TAG, "Inside newIntent function");
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "Inside onResume function");
         updateUI();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.d(TAG, "Inside onSaveInstanceState");
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        Log.d(TAG, "Inside onCreateOptionsMenu function");
         inflater.inflate(R.menu.fragment_entry_list, menu);
 
         MenuItem subtitleItem = menu.findItem(R.id.show_subtitle);
@@ -115,6 +122,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "Inside onOptionsItemSelected function");
         switch (item.getItemId())
         {
             case R.id.new_entry:
@@ -128,11 +136,12 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.d(TAG, "getLatLong returned value of " + latLong.toString());
 
                 //2. if the location was successfully obtained, call the API to get the current weather
                 if(latLong!=null)
                 {
+                    Log.d(TAG, "getLatLong returned value of " + latLong.toString());
+
                     new FetchItemsTask(latLong).execute();
                     try {
                         while(!apiCallFinished)
@@ -156,6 +165,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
                 }
 
                 //3. Add the entry to the repository
+                Log.d(TAG, "Adding entry to the repository");
                 EntryRepository.get(getActivity()).addEntry(entry);
                 Intent intent = EntryPagerActivity
                         .newIntent(getActivity(), entry.getId());
@@ -175,6 +185,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
     }
 
     private void updateSubtitle() {
+        Log.d(TAG, "Inside updateSubtitle function");
         EntryRepository entryRepository = EntryRepository.get(getActivity());
         int entryCount = entryRepository.getEntries().size();
         String subtitle = getString(R.string.subtitle_format, entryCount);
@@ -188,6 +199,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
     }
 
     private void updateUI() {
+        Log.d(TAG, "Inside updateUI function");
         EntryRepository entryRepository = EntryRepository.get(getActivity());
         List<Entry> entries = entryRepository.getEntries();
 
@@ -218,6 +230,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
     }*/
 
     private Pair<Double, Double> getLatLong() throws InterruptedException {
+        Log.d(TAG, "Inside getLatLong function");
         //check permission to access location; if the required permission is not granted, request it
         if (ContextCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
@@ -252,6 +265,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
     private String[] stringToStringArray(String givenString)
     {
+        Log.d(TAG, "Inside stringToStringArray function");
         String[] stringsArray = {givenString};
         return stringsArray;
     }
@@ -259,6 +273,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
     @Override
     public void onRequestPermissionsResult(int requestCode, String [] permissions, int[] grantResults)
     {
+        Log.d(TAG, "Inside onRequestPermissionsResult function");
         if(requestCode == 0)
         {
             Log.d(TAG, "Request code = 0");
@@ -298,6 +313,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
         public EntryHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_entry, parent, false));
+            Log.d(TAG, "EntryHolder constructor");
             itemView.setOnClickListener(this);
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.entry_list_title);
@@ -309,6 +325,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
         }
 
         public void bind(Entry entry) {
+            Log.d(TAG, "Inside bind function");
             DateFormat formatter = new SimpleDateFormat("EEEE, MMMM dd, yyyy");
 
             //assign the entry
@@ -339,6 +356,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
         @Override
         public void onClick(View view) {
+            Log.d(TAG, "Inside onClick function");
             Intent intent = EntryPagerActivity.newIntent(getActivity(), mEntry.getId());
             startActivity(intent);
         }
@@ -349,27 +367,32 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
         private List<Entry> mEntries;
 
         public EntryAdapter(List<Entry> entries) {
+            Log.d(TAG, "Inside EntryAdapter constructor");
             mEntries = entries;
         }
 
         @Override
         public EntryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Log.d(TAG, "Inside onCreteViewHolder function");
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             return new EntryHolder(layoutInflater, parent);
         }
 
         @Override
         public void onBindViewHolder(EntryHolder holder, int position) {
+            Log.d(TAG, "Inside onBindViewHolder function");
             Entry entry = mEntries.get(position);
             holder.bind(entry);
         }
 
         @Override
         public int getItemCount() {
+            Log.d(TAG, "Inside getItemCount function");
             return mEntries.size();
         }
 
         public void setEntries(List<Entry> entries) {
+            Log.d(TAG, "Inside setEntries function");
             mEntries = entries;
         }
     }
@@ -386,6 +409,7 @@ public class EntryListFragment extends Fragment /*implements LocationListener*/{
 
         @Override
         protected Void doInBackground(Void... params){
+            Log.d(TAG, "Inside doInBackground function");
             List<DarkSkyItem> items = new DarkSkyFetchr(mLatLong).fetchItems();
             DarkSkyItem item = items.get(0);
 

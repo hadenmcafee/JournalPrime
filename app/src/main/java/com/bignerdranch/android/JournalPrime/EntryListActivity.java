@@ -14,6 +14,7 @@ public class EntryListActivity extends SingleFragmentActivity
     @Override
     protected Fragment createFragment()
     {
+        Log.d(TAG, "Inside createFragment function");
         /*LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         return new EntryListFragment(lm);*/
         return new EntryListFragment();
@@ -25,7 +26,7 @@ public class EntryListActivity extends SingleFragmentActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 0)
         {
-            Log.d(TAG, "Request code = 0");
+            Log.d(TAG, "Inside ELA.onRequestPermissionResult, Request code = 0");
 
             if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {

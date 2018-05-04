@@ -6,8 +6,6 @@ import android.database.CursorWrapper;
 import com.bignerdranch.android.JournalPrime.Entry;
 import com.bignerdranch.android.JournalPrime.database.EntryDbSchema.EntryTable;
 
-import java.sql.Time;
-import java.util.Date;
 import java.util.UUID;
 
 public class EntryCursorWrapper extends CursorWrapper {
@@ -17,7 +15,7 @@ public class EntryCursorWrapper extends CursorWrapper {
     }
 
     public Entry getEntry() {
-        String uuidString = getString(getColumnIndex(EntryTable.Cols.UUID));
+        String uuidString = getString(getColumnIndex(EntryTable.Cols.UUID_ENTRY));
         String title = getString(getColumnIndex(EntryTable.Cols.TITLE));
         long date = getLong(getColumnIndex(EntryTable.Cols.DATE));
         long time = getLong(getColumnIndex(EntryTable.Cols.TIME));

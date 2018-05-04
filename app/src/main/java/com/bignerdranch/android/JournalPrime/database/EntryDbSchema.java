@@ -5,7 +5,7 @@ public class EntryDbSchema {
         public static final String NAME = "entries";
 
         public static final class Cols {
-            public static final String UUID = "uuid";
+            public static final String UUID_ENTRY = "uuid";
             public static final String TITLE = "title";
             public static final String DATE = "date";
             public static final String TIME = "time";
@@ -23,7 +23,7 @@ public class EntryDbSchema {
 //        public static final String NAME = "images";
 //
 //        public static final class Cols {
-//            public static final String UUID = "uuid";
+//            public static final String UUID_ENTRY = "uuid";
 //            public static final String ENTRY_ID = "corresponding_entry";
 //            public static final String IMAGE_ONE = "image";
 //        }

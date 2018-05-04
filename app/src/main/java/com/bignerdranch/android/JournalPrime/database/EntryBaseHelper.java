@@ -19,7 +19,7 @@ public class EntryBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + EntryTable.NAME + "(" +
                         " _id integer primary key autoincrement, " +
-                        EntryTable.Cols.UUID + ", " +
+                        EntryTable.Cols.UUID_ENTRY + ", " +
                         EntryTable.Cols.TITLE + ", " +
                         EntryTable.Cols.DATE + ", " +
                         EntryTable.Cols.TIME + ", " +
