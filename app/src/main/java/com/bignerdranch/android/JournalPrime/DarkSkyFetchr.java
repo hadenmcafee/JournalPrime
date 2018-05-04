@@ -2,6 +2,7 @@ package com.bignerdranch.android.JournalPrime;
 
 import android.location.Geocoder;
 import android.net.Uri;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -25,8 +26,14 @@ public class DarkSkyFetchr {
 
     private static final String TAG = "DarkSkyFetchr";
     private static final String API_KEY = "0608051a6da549bf10d568618a505a37";
-    private static final String LAT = "37.8267";
-    private static final String LON = "-122.4233";
+    private String mLat;
+    private String mLong;
+
+    public DarkSkyFetchr(Pair<Double,Double> latLong)
+    {
+        mLat = latLong.first.toString();
+        mLong = latLong.second.toString();
+    }
 
     public byte[] getUrlBytes(String urlSpec) throws IOException{
         URL url = new URL(urlSpec);
@@ -63,12 +70,14 @@ public class DarkSkyFetchr {
         List<DarkSkyItem> items = new ArrayList<>();
 
         try{
-            String url = "https://api.darksky.net/forecast/0608051a6da549bf10d568618a505a37/37.8267,-122.4233";
+            String url = "https://api.darksky.net/forecast/" + API_KEY + "/" + mLat + "," + mLong;
+            Log.d(TAG, "Generated URL for API call = " + url);
+            //String url = "https://api.darksky.net/forecast/0608051a6da549bf10d568618a505a37/37.8267,-122.4233";
 //            String url = Uri.parse("https://api.darksky.net/forecast/")
 //                    .buildUpon()
 //                    .appendQueryParameter("api_key", API_KEY)
-//                    .appendQueryParameter("lat", LAT)
-//                    .appendQueryParameter("lon", LON)
+//                    .appendQueryParameter("lat", mLat)
+//                    .appendQueryParameter("lon", mLong)
 //                    .build().toString();
             String jsonString = getUrlString(url);
 //            Log.i(TAG, "Received JSON: " + jsonString);

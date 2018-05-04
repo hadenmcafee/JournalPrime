@@ -49,6 +49,16 @@ public class Entry {
         mTemp = temp;
         mEntryContent = "";
     }
+//    public Entry(UUID id, String skyDescription, String skyIconText, String temp, Time time)
+//    {
+//        mId = id;
+//        mDate = new Date();
+//        mTime = time;
+//        mSkyDescription = skyDescription;
+//        mSkyIconText = skyIconText;
+//        mTemp = temp;
+//        mEntryContent = "";
+//    }
 
     public UUID getId() {
         return mId;

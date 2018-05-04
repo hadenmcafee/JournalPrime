@@ -400,6 +400,7 @@ public class EntryFragment extends Fragment {
 
     private void updateTime() {
         DateFormat formatter = new SimpleDateFormat("hh:mm a");
+
         mTimeButton.setText(formatter.format(mEntry.getTime())); //mDateButton.setText(mEntry.getDate().toString());
 
     }
